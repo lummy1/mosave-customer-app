@@ -2,6 +2,7 @@
 import React, { useRef, useState } from 'react'
 import Header from './Header'
 import SidebarNav from './SidebarNav'
+import Image from 'next/image'
 
 const NavBar = () => {
     const [open, setOpen] = useState(true);
@@ -61,7 +62,7 @@ const NavBar = () => {
                                 <span className="sr-only">Toggle sidebar</span>
                             </button>
                             <a href="https://moloyal.com" className="flex items-center justify-between mr-4">
-                                <img
+                                <Image width={0} height={0} sizes="100vw" 
                                     src="https://flowbite.s3.amazonaws.com/logo.svg"
                                     className="mr-3 h-8"
                                     alt="Moloyal Logo"
@@ -146,7 +147,7 @@ const NavBar = () => {
                                         className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
                                     >
                                         <div className="flex-shrink-0">
-                                            <img
+                                            <Image width={0} height={0} sizes="100vw" 
                                                 className="w-11 h-11 rounded-full"
                                                 src="https://moloyal.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
                                                 alt="Bonnie Green avatar"
@@ -188,7 +189,7 @@ const NavBar = () => {
                                         className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
                                     >
                                         <div className="flex-shrink-0">
-                                            <img
+                                            <Image width={0} height={0} sizes="100vw" 
                                                 className="w-11 h-11 rounded-full"
                                                 src="https://moloyal.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
                                                 alt="Jese Leos avatar"
@@ -231,7 +232,7 @@ const NavBar = () => {
                                         className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
                                     >
                                         <div className="flex-shrink-0">
-                                            <img
+                                            <Image width={0} height={0} sizes="100vw" 
                                                 className="w-11 h-11 rounded-full"
                                                 src="https://moloyal.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png"
                                                 alt="Joseph McFall avatar"
@@ -279,7 +280,7 @@ const NavBar = () => {
                                         className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
                                     >
                                         <div className="flex-shrink-0">
-                                            <img
+                                            <Image width={0} height={0} sizes="100vw" 
                                                 className="w-11 h-11 rounded-full"
                                                 src="https://moloyal.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
                                                 alt="Roberta Casas image"
@@ -325,7 +326,7 @@ const NavBar = () => {
                                         className="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600"
                                     >
                                         <div className="flex-shrink-0">
-                                            <img
+                                            <Image width={0} height={0} sizes="100vw" 
                                                 className="w-11 h-11 rounded-full"
                                                 src="https://moloyal.s3.amazonaws.com/blocks/marketing-ui/avatars/robert-brown.png"
                                                 alt="Robert image"
@@ -560,8 +561,7 @@ const NavBar = () => {
                                     </a>
                                     <a
                                         href="#"
-                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
-                                    >
+                                        className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group">
                                         <svg
                                             aria-hidden="true"
                                             className="mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400"
@@ -614,14 +614,14 @@ const NavBar = () => {
                                 }}
                             >
                                 <span className="sr-only">Open user menu</span>
-                                <img
+                                <Image width={0} height={0} sizes="100vw" 
                                     className="w-8 h-8 rounded-full"
                                     src="https://moloyal.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
                                     alt="user photo"
                                 />
                             </button>
                             {/*  Dropdown menu */} 
-                            <div ref={popoverDropdownRef} className={`${dropdownPopoverShow ? "block " : "hidden " } z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl`}                                id="dropdown"
+                            <div ref={popoverDropdownRef} className={`${dropdownPopoverShow ? "block " : "hidden " } z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}                                id="dropdown"
                             >
                                 <div className="py-3 px-4">
                                     <span

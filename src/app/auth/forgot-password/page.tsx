@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, {ChangeEvent, FormEvent, FormEventHandler, useState } from 'react'
 
-const forgotPassword = () => {
+const ForgotPassword = () => {
     const [formData, setFormData] = useState({
         email: '',
     })
@@ -58,4 +58,4 @@ const forgotPassword = () => {
   )
 }
 
-export default forgotPassword
+export default ForgotPassword
