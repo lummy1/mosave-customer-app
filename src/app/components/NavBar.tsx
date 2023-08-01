@@ -171,14 +171,7 @@ const NavBar = () => {
                                                 </svg>
                                             </div>
                                         </div>
-                                        <div className="pl-3 w-full">
-                                            <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                                New message from<span className="font-semibold text-gray-900 dark:text-white">Bonnie Green</span>: Hey, what's up? All set for the presentation?
-                                            </div>
-                                            <div
-                                                className="text-xs font-medium text-primary-600 dark:text-primary-500">a few moments ago
-                                            </div>
-                                        </div>
+                                        
                                     </a>
                                     <a
                                         href="#"
