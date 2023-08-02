@@ -6,24 +6,30 @@ import { Tooltip } from 'flowbite-react';
 const ThemeToggle = () => {
     const storedTheme = get('theme');
     const [theme, setTheme] = useState(storedTheme ? storedTheme : 'system');
-    const element = document.documentElement;
-    const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const [isMounted, setIsMounted] = useState(false)
+    //const element =  typeof window !== "undefined" ? document.documentElement: null;
+    const element = isMounted ? document.documentElement: null;
+    const darkQuery = isMounted ? window.matchMedia('(prefers-color-scheme: dark)'): null;
 
     useEffect(() => {
-        if (get('theme') === "dark" || (!("theme" in localStorage) && darkQuery.matches)) {
-            element.classList.add("dark");
+        setIsMounted(true)
+      }, [])
+
+    useEffect(() => {
+        if (get('theme') === "dark" || (!("theme" in localStorage) && darkQuery!.matches)) {
+            element?.classList.add("dark");
         }
         else {
-            element.classList.remove("dark");
+            element?.classList.remove("dark");
         }
     }, [])
 
     useEffect(() => {
         if (theme === "dark") {
-            element.classList.add("dark");
+            element?.classList.add("dark");
             store('theme', 'dark');
         } if (theme === "light") {
-            element.classList.remove("dark");
+            element?.classList.remove("dark");
             store('theme', 'light');
         }
         else if (theme === "system") {
