@@ -16,7 +16,7 @@ const ThemeToggle = () => {
       }, [])
 
     useEffect(() => {
-        if (get('theme') === "dark" || (!("theme" in localStorage) && darkQuery!.matches)) {
+        if (get('theme') === "dark" || (!("theme" in localStorage) && darkQuery?.matches)) {
             element?.classList.add("dark");
         }
         else {
