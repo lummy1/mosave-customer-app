@@ -39,9 +39,15 @@ module.exports = {
         error: "#eb5757",
         black: "#1d1d1d",
         background: { bg: 'rgb(249 250 251 / 1)' }
+      },
+      width: {
+        width20: '20%',
+        width40: '40%'
       }
     },
   },
+    // List your classes here, or you can even use RegExp
+    safelist: [/^w-/],
   plugins: [
     require('flowbite/plugin'),
     //require('@tailwindcss/forms')

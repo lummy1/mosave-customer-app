@@ -1,10 +1,8 @@
 'use client'
 import React from 'react'
 import { Inter } from 'next/font/google'
-import PublicHeader from './PublicHeader'
 import ReduxProvider from '@/redux/provider/provider'
 import { usePathname } from 'next/navigation'
-import NavBar from './NavBar';
 import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -18,8 +16,10 @@ export async function getStaticProps() {
     };
 }
 
-const Client = ({ children }: { children: React.ReactNode }, heading: string ="Moloyal Page") => {
-    const pathname = usePathname();
+const Client = ({ children }: { children: React.ReactNode }, heading: string = "Moloyal Page") => {
+    const currentPath = usePathname();
+    const publicPath = ['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/auth/verify']
+    const path = publicPath.find((p) => p === currentPath);
     return (
         <>
             <html lang="en">
@@ -29,11 +29,8 @@ const Client = ({ children }: { children: React.ReactNode }, heading: string ="M
                 </Head>
                 <body className={`${inter.className}`} suppressHydrationWarning={true}>
                     <ReduxProvider>
-                        {pathname === '/auth/login' || pathname === '/auth/register' || pathname === '/auth/forgot-password' || pathname === '/auth/reset-password' ?
-                            <PublicHeader /> : <NavBar />}
-                        <main className="">
-                            {children}
-                        </main>
+                        {/* {path != undefined ? <PublicHeader /> : <NavBar />} */}
+                        {children}
                     </ReduxProvider>
                 </body>
             </html>

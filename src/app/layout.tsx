@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
 
   return (
-    <Client >
+    <Client>
       {children}
     </Client>
   )

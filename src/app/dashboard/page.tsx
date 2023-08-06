@@ -1,8 +1,13 @@
 import React from 'react'
+import Private from '../components/Layouts/Private'
 
 const DashboardPage = () => {
   return (
-    <div>DashboardPage</div>
+    <Private>
+      <div>
+        This is the dashboard page
+      </div>
+    </Private>
   )
 }
 

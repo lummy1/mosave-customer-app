@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 const publicHeader = () => {
   return (
-
     <nav className="border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center">
@@ -16,7 +15,6 @@ const publicHeader = () => {
         </div>
       </div>
     </nav>
-
   )
 }
 
