@@ -121,7 +121,7 @@ export default class VerifyEmailPage extends Component<MyProps, IState> {
                         </h2>
                         <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5" onSubmit={this.onSubmit}>
                             <div>
-                                <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">We've sent an OTP to your registered email address to complete this process.</label>
+                                <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">{"We\'ve sent an OTP to your registered email address to complete this process."}</label>
 
                                 <OtpInput value={this.state.otp} renderInput={(props) => <input {...props} />} onChange={(e) => this.handleChange(e)} numInputs={6} inputType={'password'} shouldAutoFocus={true}
                                     inputStyle={{
@@ -152,7 +152,7 @@ export default class VerifyEmailPage extends Component<MyProps, IState> {
                                 </div>
                                 {this.isCompleted() && (
                                     <>
-                                        <span className="text-xs text-gray-500 dark:text-gray-300"> Didn't receive the OTP? {' '}</span>
+                                        <span className="text-xs text-gray-500 dark:text-gray-300">{'Didn\'t receive the OTP?  '}</span>
                                         <button type='button' className='text-xs text-gray-500 dark:text-gray-300' onClick={(e) => this.resendOTP(e)}>Resend</button>
                                     </>
                                 )}
