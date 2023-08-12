@@ -2,9 +2,13 @@
 import Public from '@/app/components/Layouts/Public'
 import { IBoolean, IForgotPassword, IString } from '@/app/utils/interface'
 import { validationSchema } from '@/app/validations/forgotPasswordValidation'
-import Image from 'next/image'
+import { forgotPassword, reset } from '@/redux/features/auth/authSlice'
+import { AppDispatch, useAppSelector } from '@/redux/store/store'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React, { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
     const initialValue = {email: ''}
@@ -13,7 +17,9 @@ const ForgotPassword = () => {
     const [touched, setTouched] = useState<IBoolean>({ email: false, password: false });
     const [disabled, setDisabled] = useState(true);
 
-    const { email } = formData
+    const { email } = formData;
+    const { user, isLoading, isError, isSuccess, message } = useAppSelector((state) => state.auth)
+    const dispatch = useDispatch<AppDispatch>();
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData((prevState) => ({
@@ -30,6 +36,7 @@ const ForgotPassword = () => {
      const onSubmit: FormEventHandler<HTMLFormElement> = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         console.log(formData);
+        dispatch(forgotPassword(formData))
     }
 
      useEffect(() => {
@@ -49,7 +56,16 @@ const ForgotPassword = () => {
         validationSchema.isValid(formData).then(valid => setDisabled(!valid));
     }, [formData]);
 
-    
+    useEffect(() => {
+        if (isError) {
+            toast.error(message)
+        }
+        if (isSuccess || user) {
+            toast.success(message);
+            redirect("/auth/reset-password")
+        }
+        dispatch(reset())
+    }, [user, isError, isSuccess, message, dispatch])
 
     return (
         <Public >
@@ -71,7 +87,9 @@ const ForgotPassword = () => {
                         <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <Link className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="/terms">Terms and Conditions</Link></label>
                     </div>
                 </div>
-                <button type="submit" disabled={disabled} className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Submit</button>
+                <button type="submit" disabled={disabled} className={`${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
+                    Submit
+                </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                     Remember Password? <Link href="/auth/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login</Link>
                 </p>

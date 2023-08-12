@@ -11,9 +11,9 @@ import Footer from '../Footer'
 const Private = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="antialiased bg-gray-50 dark:bg-gray-900">
-            < Header2 />
+            <Header />
             {/* Sidebar */}
-            <SidebarNav2 />
+            <SidebarNav />
             <main className="p-4 md:ml-64 h-auto pt-20    max-w-screen-xl md:min-h-screen rounded-lg">
                 {/* <Template /> */}
                 {children}

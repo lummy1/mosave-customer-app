@@ -4,6 +4,14 @@ import OtpInput from 'react-otp-input';
 import Countdown, { zeroPad, CountdownApi } from 'react-countdown';
 import { redirect, useRouter } from 'next/navigation';
 import Public from '@/app/components/Layouts/Public';
+import ButtonLoader from '@/app/components/ButtonLoader';
+import { connect } from 'react-redux';
+import { verifyOTP } from '@/redux/features/auth/authSlice';
+
+export type Props = {
+    verify: any,
+    verifyOtp(name: string): any
+}
 
 interface IState {
     stateval: number,
@@ -14,9 +22,15 @@ interface IState {
     mount: boolean
 }
 
-interface MyProps { }
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        verify: (otp: string) => dispatch(verifyOTP({otp: otp}))
+    }
+  };
 
-export default class VerifyEmailPage extends Component<MyProps, IState> {
+const mapStateToProps = (state: any) => ({auth: state.auth});
+
+ class VerifyEmailPage extends Component<Props, IState> {
     countdownApi: CountdownApi | null = null;
     countdownInterval = 0;
     //router = useRouter()
@@ -37,6 +51,7 @@ export default class VerifyEmailPage extends Component<MyProps, IState> {
     onSubmit: FormEventHandler<HTMLFormElement> = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         console.log(this.state)
+        this.props.verifyOtp(this.state.otp);
     }
 
     handleChange = (otp: any) => {
@@ -64,7 +79,6 @@ export default class VerifyEmailPage extends Component<MyProps, IState> {
             if (this.state.date <= 0) {
                 return this.clearInterval();
             }
-
             this.setState(({ date }) => ({ date: date - 1000 }));
         }, 1000);
     }
@@ -112,6 +126,7 @@ export default class VerifyEmailPage extends Component<MyProps, IState> {
     }
 
     render() {
+        const { user, isLoading, isError, isSuccess, message } = this.props.verify
         return (
             <>
                 {this.state.mount && (
@@ -158,8 +173,9 @@ export default class VerifyEmailPage extends Component<MyProps, IState> {
                                 )}
                             </div>
 
-
-                            <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Verify</button>
+                            <button type="submit" className={`${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
+                             <ButtonLoader isLoading={isLoading} text='Verify' loadingText='Loading' /> 
+                            </button>
 
                         </form>
                     </Public>
@@ -198,3 +214,5 @@ export default class VerifyEmailPage extends Component<MyProps, IState> {
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailPage)

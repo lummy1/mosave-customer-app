@@ -16,7 +16,6 @@ export const strengthColor = (count: number) => {
   if (count < 5) return { label: 'Good', percent: 80,  color: 'text-green-500', bgColor: 'bg-green-500'};
   if (count < 6) return { label: 'Strong', percent: 100, color: 'text-green-800', bgColor: 'bg-green-800'};
   return { label: 'Poor', color: 'text-red-600', percent: 0, bgColor: 'bg-red-600' };
-  //return { label: '', color: '' };
 };
 
 // password strength indicator

@@ -3,15 +3,15 @@ import React, { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } 
 import Image from 'next/image'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux';
-// import { useLocation, useNavigate } from 'react-router-dom';
 import { AppDispatch, useAppSelector } from '@/redux/store/store';
 import { toast } from 'react-toastify';
-import { reset } from '@/redux/features/authSlice';
+import { login, reset } from '@/redux/features/auth/authSlice';
 import { redirect, useRouter } from 'next/navigation';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import Public from '@/app/components/Layouts/Public';
 import { validationSchema } from '@/app/validations/loginValidation';
 import { IBoolean, ILogin, IString } from '@/app/utils/interface';
+import ButtonLoader from '@/app/components/ButtonLoader';
 
 const Login = () => {
     const initialValue = { email: '', password: '' }
@@ -25,9 +25,7 @@ const Login = () => {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
 
-    const { user, isLoading, isError, isSuccess, message } = useAppSelector(
-        (state) => state.auth
-    )
+    const { user, isLoading, isError, isSuccess, message } = useAppSelector((state) => state.auth)
 
     const { email, password } = formData;
 
@@ -44,22 +42,19 @@ const Login = () => {
     const onSubmit: FormEventHandler<HTMLFormElement> = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const userData = { email, password }
-        console.log(userData);        
+        console.log(userData);
+        dispatch(login(userData))       
     }
 
     useEffect(() => {
         if (isError) {
             toast.error(message)
         }
-
         if (isSuccess || user) {
             toast.success(message);
-            console.log(router)
             //navigate('/dashboard', { state: { from: location?.pathname }, replace: true });
-            redirect("/dashboard")
-            //router.push("/dashboard");
+            redirect("/dashboard") // or router.push("/dashboard");
         }
-
         dispatch(reset())
     }, [user, isError, isSuccess, message, dispatch])
 
@@ -114,7 +109,9 @@ const Login = () => {
                     </div>
                     <Link href="/auth/forgot-password" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
                 </div>
-                <button type="submit" disabled={disabled}  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login</button>
+                <button type="submit" disabled={disabled}  className={`${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
+                <ButtonLoader isLoading={isLoading} text='Login' loadingText='Logging in' />  
+                </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                     Don’t have an account yet? <Link href="/auth/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Register</Link>
                 </p>

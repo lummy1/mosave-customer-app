@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Avatar, Dropdown } from 'flowbite-react'
 import ThemeToggle from './ThemeToggle'
-// import avatar from '/imgs/160x160/img1.jpg';
+// import avatar from '/imgs/profiles/img1.jpg';
 import Image from 'next/image'
-import { logout } from '@/redux/features/authSlice';
+import { logout } from '@/redux/features/auth/authSlice';
 import { AppDispatch } from '@/redux/store/store';
 import { IUser } from '../utils/interface';
 
@@ -59,7 +59,7 @@ const Header = () => {
 
                         {/*  Profile */}
                         <div className="flex items-center ml-3">
-                            <Dropdown inline label={<Avatar alt="User Profile" img={userInfo?.image?.url === '' ? '/imgs/160x160/img1.jpg' : userInfo?.image?.url} rounded />}>
+                            <Dropdown inline label={<Avatar alt="User Profile" img={userInfo?.image?.url === '' ? '/imgs/profiles/img1.jpg' : userInfo?.image?.url} rounded />}>
                                 <Dropdown.Header>
                                     <span className="block text-sm"> {userInfo.firstName + ' ' + userInfo.lastName}</span>
                                     <span className="block truncate text-sm font-medium"> {userInfo.email}</span>

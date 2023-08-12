@@ -6,6 +6,12 @@ import React, { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } 
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { validationSchema } from "@/app/validations/registerValidation";
 import { IBoolean, IPasswordType, IRegister } from '@/app/utils/interface'
+import ButtonLoader from '@/app/components/ButtonLoader'
+import { AppDispatch, useAppSelector } from '@/redux/store/store'
+import { redirect } from 'next/navigation'
+import { useDispatch } from 'react-redux'
+import { register, reset } from '@/redux/features/auth/authSlice'
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const initialValues = { firstName: '', lastName: '', email: '', phone: '', password: '', confirmPassword: '', terms: false }
@@ -17,6 +23,8 @@ const Register = () => {
     const [disabled, setDisabled] = useState(true);
     const { firstName, lastName, email, phone, password, confirmPassword, terms } = formData;
     const { type1, type2 } = type;
+    const { user, isLoading, isError, isSuccess, message } = useAppSelector((state) => state.auth )
+    const dispatch = useDispatch<AppDispatch>();
 
     const setPassword = (value: string) => {
         const temp = strengthIndicator(value);
@@ -49,7 +57,6 @@ const Register = () => {
             .catch((err: any) => {
                 const errs: IRegister = initialValues;
                 err.inner.forEach((error:any) => {
-                    console.log(touched[error.path]);
                     if (touched[error.path]) errs[error.path] = error.message;
                 })
                 setErrors(errs);
@@ -61,11 +68,27 @@ const Register = () => {
     const onSubmit: FormEventHandler<HTMLFormElement> = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(formData);
+        if (!terms) {
+            toast.error('Please accept the terms and conditions')
+          } else if (password !== confirmPassword) {
+            toast.error('Password does not match');
+          } else {
+            const userData = { firstName, lastName, email, phone, password, confirmPassword, terms }
+            dispatch(register(userData))
+          }
     }
 
     useEffect(() => {
         setPassword('');
-    }, []);
+        if (isError) {
+            toast.error(message)
+        }
+        if (isSuccess || user) {
+            toast.success(message);
+            redirect("/auth/verify")
+        }
+        dispatch(reset())
+    }, [user, isError, isSuccess, message, dispatch])
 
     return (
         <Public>
@@ -106,7 +129,6 @@ const Register = () => {
                                     {type1 === "password" ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                             </div>
-
                         </div>
                         {password.length > 0 && (
                             <div>
@@ -145,7 +167,9 @@ const Register = () => {
                     </div>
                     <small className="text-xs text-red-600 dark:text-red-600">{touched.terms && errors.terms}</small>
                     {/* </div> */}
-                    <button type="submit" disabled={disabled} className="sm:col-span-2 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Register</button>
+                    <button type="submit" disabled={disabled} className={`${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} sm:col-span-2 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
+                    <ButtonLoader isLoading={isLoading} text='Register' loadingText='Loading' />    
+                    </button>
                     <p className="sm:col-span-2 text-sm font-light text-gray-500 dark:text-gray-400">
                         Already have an account? <Link href="/auth/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login</Link>
                     </p>

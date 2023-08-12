@@ -30,9 +30,28 @@ export type IForgotPassword = {
     [key: string]: string
 }
 
+export type IResetPassword = {
+    password: string,
+    confirmPassword: string,
+    [key: string]: string
+}
+
+export type IVerifyOTP = {
+    otp: string
+}
+
 export type IPasswordType = {
     [key: string]: string
 }
+
+export type IPasswordValidation = {
+    label: string
+    color: string
+    bgColor: string
+    percent: number
+}
+
+
 
 export type IBoolean = {
     [key: string]: boolean

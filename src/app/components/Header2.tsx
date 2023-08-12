@@ -36,7 +36,7 @@ const Header2 = () => {
                 <span className="sr-only">Toggle sidebar</span>
               </button>
               <a href="https://moloyal.com" className="flex items-center justify-between mr-4">
-                <Image width={0} height={0} sizes="100vw" src="https://flowbite.s3.amazonaws.com/logo.svg" className="mr-3 h-8" alt="Moloyal Logo" />
+                <Image width={0} height={0} sizes="100vw" src="/img/logo/logo.png" className="mr-3 h-8" alt="Moloyal Logo" />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Moloyal</span>
               </a>
               <form action="#" method="GET" className="hidden md:block md:pl-2">
