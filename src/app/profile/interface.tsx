@@ -1,5 +1,5 @@
 export type Props = {
-    profile: any,
+    profile: IProfile,
     fetchProfile(): any
 }
 
@@ -33,7 +33,6 @@ export type IState = {
 }
 
 export type IProfile = {
-    profile: object
     data: any,
     response: any,
     isLoading: boolean,

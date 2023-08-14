@@ -1,9 +1,10 @@
 "use client"
 import React from 'react'
 import { Sidebar } from 'flowbite-react';
-import { HiChartPie, HiInbox, HiNewspaper, HiTable, HiUser, HiViewBoards } from 'react-icons/hi';
+import { HiCalendar, HiOutlineSave, HiUser } from 'react-icons/hi';
 import Link from 'next/link';
 import Image from 'next/image';
+import { BsCalendar, BsHouseDoor, BsPerson } from 'react-icons/bs';
 
 const SidebarNav = () => {
 
@@ -11,43 +12,38 @@ const SidebarNav = () => {
     {
       name: 'Dashboard',
       link: '/dashboard',
-      icon: HiChartPie,
+      icon: BsHouseDoor,
     },
     {
-      name: 'Blogs',
-      icon: HiNewspaper,
+      name: 'MoSave',
+      icon: HiOutlineSave,
       submenu: [
         {
-          name: 'Blog',
-          link: '/blogs',
+          name: 'Savings',
+          link: '/savings',
         },
         {
-          name: 'Create Blog',
-          link: '/add-blog',
+          name: 'Withdrawal',
+          link: '/withdraw',
         }
       ]
     },
     {
       name: 'Profile',
       link: '/profile',
-      icon: HiViewBoards,
+      icon: BsPerson,
     },
     {
-      name: 'Inbox',
-      link: '/inbox',
-      icon: HiInbox,
-    },
-    {
-      name: 'Users',
-      link: '/users',
-      icon: HiUser,
+      name: 'MoTicket',
+      link: '/savings',
+      icon: BsCalendar,
     }
   ]
   return (
     <Sidebar className="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-full font-normal duration-75 lg:flex transition-width">
       <Image className="h-12 w-auto mr-2" src="/imgs/logo/logo.png" alt="logo" width={0} height={0} sizes="100vw" />
       {/* <Sidebar.Logo as={Image} href="#" img="/imgs/logo/logo2.png" imgAlt="Moloyal logo" className="lg:h-16"></Sidebar.Logo> */}
-      <Sidebar.Items>
+      <Sidebar.Items className='mt-5'>
         <Sidebar.ItemGroup>
           {menus.map((menu, i) => (
             <React.Fragment key={i}>
