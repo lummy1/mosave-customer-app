@@ -126,7 +126,7 @@ const Register = () => {
                             <input type={type1} autoComplete='new-password' onFocus={onFocus} name="password" id="password" value={password} onChange={(e) => { onChange(e); setPassword(e.target.value); }} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2.5">
                                 <button type='button' name='type1' onClick={changePasswordType}>
-                                    {type1 === "password" ? <FaEyeSlash /> : <FaEye />}
+                                    {type1 === "password" ? <FaEyeSlash className="dark:text-white"/> : <FaEye className="dark:text-white"/>}
                                 </button>
                             </div>
                         </div>

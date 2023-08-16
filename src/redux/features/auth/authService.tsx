@@ -10,8 +10,8 @@ import {
 import AuthConstants from "@/redux/config/authConstant";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASEURL;
-const user = get(AuthConstants());
-const token = user.token;
+// const user = get(AuthConstants());
+// const token = user.token;
 
 const register = async (data: IRegister) => {
   const response = await axios.post(baseUrl + "/customer/register", data);
@@ -69,8 +69,9 @@ const profile = async () => {
 
 // Logout user
 const logout = async () => {
+  const user = get(AuthConstants());
   const response = await axios.get(baseUrl + "/api/users/logout", {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${user.token}` },
   });
   if (response.data) {
     removeItem(AuthConstants());

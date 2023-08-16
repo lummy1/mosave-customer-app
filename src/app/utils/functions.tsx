@@ -1,8 +1,8 @@
 import moment from "moment";
 
 export const Greeting = () => {
-    const time = moment().hours()
-    if (time < 10) {
+    const time = moment().hours();
+    if (time < 12) {
         return "Good Morning,";
       }else if (time < 16) {
         return "Good Afternoon,";
