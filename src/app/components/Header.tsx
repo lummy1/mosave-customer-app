@@ -94,7 +94,7 @@ Header.propTypes = {
     onSidebarOpen: PropTypes.func,
     onSidebarClose: PropTypes.func,
     openSidebar: PropTypes.bool.isRequired,
-    userData: PropTypes.object.isRequired
+    userData: PropTypes.object
 };
 
 export default Header

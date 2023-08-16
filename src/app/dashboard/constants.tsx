@@ -11,7 +11,7 @@ export const data = [
   {
     heading: "Total Balance",
     subheading: "Your remaining balance",
-    amount: "52,000",
+    amount: "52000",
     icon: <BiCreditCard />,
     color: "bg-blue-300",
     bg: "bg-blue-100",
@@ -19,15 +19,15 @@ export const data = [
   {
     heading: "Total Wallet",
     subheading: "The balance in your wallet",
-    amount: "38,000",
+    amount: "38000",
     icon: <FaWallet />,
-    color: "bg-yellow-300",
-    bg: "bg-yellow-100",
+    color: "bg-purple-300",
+    bg: "bg-purple-100",
   },
   {
     heading: "Total Rewards",
     subheading: "Loyalty accrued so far",
-    amount: "15,000",
+    amount: "15000",
     icon: <BsFillCreditCardFill />,
     color: "bg-green-300",
     bg: "bg-green-100",
@@ -35,7 +35,7 @@ export const data = [
   {
     heading: "Total Interest",
     subheading: "Interest accrued so far",
-    amount: "3,000",
+    amount: "3000",
     icon: <BsCreditCard2Back />,
     color: "bg-red-300",
     bg: "bg-red-100",

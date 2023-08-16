@@ -45,7 +45,7 @@ const sidebarNav3 = (props: Iprops) => {
 
 sidebarNav3.propTypes = {
     open: PropTypes.bool.isRequired,
-    userData: PropTypes.object.isRequired
+    userData: PropTypes.object
 };
 
 export default sidebarNav3
