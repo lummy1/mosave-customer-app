@@ -1,11 +1,10 @@
 "use client";
 import Private from "../components/Layouts/Private";
 import { connect } from "react-redux";
-
 import React, { Component } from "react";
 import { fetch } from "@/redux/features/profile/profileSlice";
 import { Greeting } from "../utils/functions";
-import { FaEye, FaEyeSlash, FaWallet } from "react-icons/fa";
+import { FaWallet } from "react-icons/fa";
 import {
   BsCreditCard2Back,
   BsEyeFill,
@@ -173,14 +172,14 @@ class DashboardPage extends Component<Props, State> {
                 <div className="col-span-2">
                   <div className="p-4 mb-4 lg:space-y-6 space bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                   <div className="px-4 py-2">
-                      <h3 className="font-bold">Quick Links</h3>
+                      <h3 className="font-bold dark:text-white">Quick Links</h3>
                     </div>
                     {/* <div className="px-4 py-2 inline-flex space-x-4"> */}
                     <div className="space-y-8 sm:grid max-w-screen-xl md:grid md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-2 space-x-2 gap-8 md:gap-6 sm:gap-2 md:space-y-0">
                       {this.state.quickLinks.map((item, i) => (
-                          <button key={i} type="button" className="items-center p-2 text-sm font-medium bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-300">
+                          <button key={i} type="button" className="items-center p-2 text-sm font-medium bg-blue-100 rounded-lg border dark:border-gray-700 dark:bg-gray-900 dark:text-blue-300 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-300">
                             <div className="items-center text-sm bg-transparent rounded-lg">
-                              <span className={`${item.color } ${item.bg} inline-flex items-center justify-center w-12 h-12 text-sm font-semibold rounded-full dark:bg-gray-700 dark:text-gray-300`}>
+                              <span className={`${item.color } ${item.bg} dark:border-gray-700 inline-flex items-center justify-center w-12 h-12 text-sm font-semibold rounded-full dark:bg-gray-700 dark:text-gray-300`}>
                                 {item.icon}
                               </span>
                               <div className="items-center my-2">

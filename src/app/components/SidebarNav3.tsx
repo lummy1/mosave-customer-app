@@ -2,10 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { menus, menus2 } from '../../../constants/constant'
+import PropTypes from 'prop-types';
 
-const sidebarNav3 = () => {
+type Iprops = {userData: object, open: boolean }
+
+const sidebarNav3 = (props: Iprops) => {
+    const {userData, open } = props
   return (
-    <aside id="logo-sidebar" className="border-gray-200 border-r fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" >
+    <aside id="logo-sidebar" className={` fixed top-0 left-0 z-40 w-64 border-gray-200 border-r h-screen transition-transform md:translate-x-0 ${open ? '' : '-translate-x-full'}`} >
    <div className="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800">
       <Link href="/" className="flex items-center pl-2.5 mb-5">
       <Image className="h-12 w-auto mr-2" src="/imgs/logo/logo.png" alt="logo" width={0} height={0} sizes="100vw" />
@@ -38,5 +42,10 @@ const sidebarNav3 = () => {
 </aside>
   )
 }
+
+sidebarNav3.propTypes = {
+    open: PropTypes.bool.isRequired,
+    userData: PropTypes.object.isRequired
+};
 
 export default sidebarNav3
