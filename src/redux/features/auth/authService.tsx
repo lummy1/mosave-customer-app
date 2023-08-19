@@ -1,4 +1,4 @@
-import { get, removeItem, store } from "@/app/utils/storage";
+import { get, removeItem, store } from "@/utils/storage";
 import axios from "axios";
 import {
   IForgotPassword,
@@ -6,7 +6,7 @@ import {
   IRegister,
   IResetPassword,
   IVerifyOTP,
-} from "@/app/utils/interface";
+} from "@/utils/interface";
 import AuthConstants from "@/redux/config/authConstant";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASEURL;

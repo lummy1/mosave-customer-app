@@ -1,11 +1,11 @@
 "use client"
 import Public from '@/app/components/Layouts/Public'
-import { strengthColor, strengthIndicator } from '@/app/utils/password-strength'
+import { strengthColor, strengthIndicator } from '@/utils/password-strength'
 import Link from 'next/link'
 import React, { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { validationSchema } from "@/app/validations/registerValidation";
-import { IBoolean, IPasswordType, IRegister } from '@/app/utils/interface'
+import { validationSchema } from "@/validations/registerValidation";
+import { IBoolean, IPasswordType, IRegister } from '@/utils/interface'
 import ButtonLoader from '@/app/components/ButtonLoader'
 import { AppDispatch, useAppSelector } from '@/redux/store/store'
 import { redirect } from 'next/navigation'

@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle'
 import Image from 'next/image'
 import { logout } from '@/redux/features/auth/authSlice';
 import { AppDispatch } from '@/redux/store/store';
-import { IUser } from '../utils/interface';
+import { IUser } from '../../utils/interface';
 import PropTypes from 'prop-types';
 
 

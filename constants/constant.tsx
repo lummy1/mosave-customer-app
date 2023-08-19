@@ -11,7 +11,7 @@ export const menus = [
   {
     name: "MoSave",
     icon: <HiOutlineSave />,
-    link: "",
+    link: "/savings",
     submenu: [
       {
         name: "Savings",
@@ -25,7 +25,7 @@ export const menus = [
   },
   {
     name: "Transaction History",
-    link: "/trans-history",
+    link: "/transaction-history",
     icon: <BsCreditCard />,
   },
   {
@@ -36,7 +36,7 @@ export const menus = [
   {
     name: "MoTicket",
     badge: "new",
-    link: "/savings",
+    link: "/tickets",
     icon: <BsCalendar />,
   },
   {
@@ -50,12 +50,12 @@ export const menus = [
 export const menus2 = [
   {
     name: "Settings",
-    link: "/dashboard",
+    link: "/settings",
     icon: <BsGear />,
   },
   {
     name: "Referral",
-    link: "/profile",
+    link: "/referrals",
     icon: <BiDollarCircle />,
   },
 ];

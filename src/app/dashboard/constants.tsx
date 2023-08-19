@@ -4,7 +4,7 @@ import {
   BsFillCreditCardFill,
   BsFillSave2Fill,
 } from "react-icons/bs";
-import { BiCreditCard, BiSolidWalletAlt, BiSupport } from "react-icons/bi";
+import { BiCreditCard, BiMoney, BiSolidWalletAlt, BiSupport } from "react-icons/bi";
 import { HiSwitchHorizontal } from "react-icons/hi";
 
 export const data = [
@@ -14,7 +14,7 @@ export const data = [
     amount: "52000",
     icon: <BiCreditCard />,
     color: "bg-blue-300",
-    bg: "bg-blue-100",
+    bg: "bg-customBlue-100",
   },
   {
     heading: "Total Wallet",
@@ -38,7 +38,7 @@ export const data = [
     amount: "3000",
     icon: <BsCreditCard2Back />,
     color: "bg-red-300",
-    bg: "bg-red-100",
+    bg: "bg-customRed-100",
   },
 ];
 export const data2 = [
@@ -76,7 +76,7 @@ export const data3 = [
     heading: "Deposit",
     color: "primary",
     icon: (classes: string) => {
-      return <BsFillSave2Fill className={classes} />;
+      return <BsFillSave2Fill className={classes} />; 
     },
     href: "/savings",
   },
@@ -110,7 +110,7 @@ export const data3 = [
       return <FaPiggyBank className={classes} />;
     },
     color: "primary",
-    href: "/trans-history",
+    href: "/transaction-history",
   },
   {
     heading: "Support",
@@ -120,4 +120,35 @@ export const data3 = [
     color: "purple",
     href: "/support",
   },
+];
+
+export const trans = [
+  {
+    type: "Deposit",
+    ref: "3456723489",
+    color: "customError",
+    amount: "5000",
+    icon: (classes: string) => {
+      return <BsFillSave2Fill className={classes} />;
+    }
+  },
+  {
+    type: "Withdraw",
+    ref: "123456789",
+    color: "customSuccess",
+    amount: "3000",
+    icon: (classes: string) => {
+      return <BiCreditCard className={classes} />;
+    }
+  },
+  {
+    type: "Commission",
+    ref: "1238296789",
+    color: "warning",
+    amount: "500",
+    icon: (classes: string) => {
+      return <BiMoney className={classes} />;
+    }
+  },
+
 ];

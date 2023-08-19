@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authService from './authService';
 import AuthConstants from '../../config/authConstant';
-import { get } from '@/app/utils/storage';
-import { IForgotPassword, ILogin, IRegister, IResetPassword, IVerifyOTP } from '@/app/utils/interface';
+import { get } from '@/utils/storage';
+import { IForgotPassword, ILogin, IRegister, IResetPassword, IVerifyOTP } from '@/utils/interface';
 
 const user = get(AuthConstants());
 

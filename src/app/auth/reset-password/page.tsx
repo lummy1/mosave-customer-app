@@ -9,9 +9,9 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { redirect } from 'next/navigation'
 import { toast } from 'react-toastify';
-import { strengthColor, strengthIndicator } from '@/app/utils/password-strength'
-import { IBoolean, IPasswordType, IPasswordValidation, IResetPassword, IString } from '@/app/utils/interface'
-import { validationSchema } from '@/app/validations/resetPasswordValidation'
+import { strengthColor, strengthIndicator } from '@/utils/password-strength'
+import { IBoolean, IPasswordType, IPasswordValidation, IResetPassword, IString } from '@/utils/interface'
+import { validationSchema } from '@/validations/resetPasswordValidation'
 
 const ResetPassword = () => {
     const initialValues = {password: '', confirmPassword: ''}

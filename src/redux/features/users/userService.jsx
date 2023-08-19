@@ -1,6 +1,6 @@
 import axios from "axios";
 import AuthConstants from "../../config/authConstant";
-import { get } from "@/app/utils/storage";
+import { get } from "@/utils/storage";
 
 
 const baseUrl = process.env.NEXT_PUBLIC_BASEURL;
