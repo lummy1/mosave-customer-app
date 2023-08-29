@@ -7,6 +7,7 @@ import ButtonLoader from '../components/ButtonLoader';
 import axios from 'axios';
 import { IProfile, IState, Props } from './interface';
 import { fetch } from '@/redux/features/profile/profileSlice';
+import Private2 from '../components/Layouts/Private2';
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
@@ -130,7 +131,7 @@ class ProfilePage extends Component<Props, IState> {
         return (
             <>
                 {this.state.mount && (
-                    <Private>
+                    <Private2 >
                         <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
                             <div className="col-span-full xl:col-auto">
                                 <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
@@ -266,7 +267,7 @@ class ProfilePage extends Component<Props, IState> {
                             </div>
 
                         </div>
-                    </Private>
+                    </Private2>
                 )}
             </>
         )

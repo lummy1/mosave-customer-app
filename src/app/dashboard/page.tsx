@@ -1,5 +1,6 @@
 "use client";
 import Private from "../components/Layouts/Private";
+import Private2 from "../components/Layouts/Private2";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { fetch } from "@/redux/features/profile/profileSlice";
@@ -44,7 +45,7 @@ class DashboardPage extends Component<Props, State> {
     return (
       <>
         {this.state.mount && (
-          <Private>
+          <Private2>
             <div className="mb-5">
               <h1 className="my-2 text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
                 <Greeting /> John
@@ -305,7 +306,7 @@ class DashboardPage extends Component<Props, State> {
                 </div>
               </div>
             </div>
-          </Private>
+          </Private2>
         )}
       </>
     );

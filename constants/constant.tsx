@@ -1,18 +1,19 @@
 import { BiDollarCircle, BiMessageSquareDetail } from "react-icons/bi";
 import { BsCalendar, BsCreditCard, BsGear, BsHouseDoor, BsPerson } from "react-icons/bs";
 import { HiOutlineSave } from "react-icons/hi";
+import { RxDashboard } from "react-icons/rx"
 
 export const menus = [
   {
     name: "Dashboard",
     link: "/dashboard",
-    icon: <BsHouseDoor />,
+    icon: <RxDashboard />,
   },
   {
     name: "MoSave",
     icon: <HiOutlineSave />,
     link: "/savings",
-    submenu: [
+    submenus: [
       {
         name: "Savings",
         link: "/savings",
@@ -34,10 +35,9 @@ export const menus = [
     icon: <BsPerson />,
   },
   {
-    name: "MoTicket",
-    badge: "new",
-    link: "/tickets",
-    icon: <BsCalendar />,
+    name: "Utilities",
+    link: "/utilities",
+    icon: <BsPerson />,
   },
   {
     name: "Notifications",
@@ -48,6 +48,22 @@ export const menus = [
 ];
 
 export const menus2 = [
+  {
+    name: "MoTicket",
+    badge: "new",
+    link: "/tickets",
+    icon: <BsCalendar />,
+    submenus: [
+      {
+        name: "Savings",
+        link: "/savings",
+      },
+      {
+        name: "Withdrawal",
+        link: "/withdraw",
+      },
+    ],
+  },
   {
     name: "Settings",
     link: "/settings",

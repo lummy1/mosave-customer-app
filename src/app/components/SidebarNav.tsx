@@ -17,7 +17,7 @@ const SidebarNav = () => {
     {
       name: 'MoSave',
       icon: HiOutlineSave,
-      submenu: [
+      submenus: [
         {
           name: 'Savings',
           link: '/savings',
@@ -48,9 +48,9 @@ const SidebarNav = () => {
         <Sidebar.ItemGroup>
           {menus.map((menu, i) => (
             <React.Fragment key={i}>
-              {menu.submenu != undefined && menu.submenu.length > 0 ? (
+              {menu.submenus != undefined && menu.submenus.length > 0 ? (
                 <Sidebar.Collapse icon={menu.icon} label={menu.name}>
-                  {menu.submenu.map((sm, id) => (
+                  {menu.submenus.map((sm, id) => (
                     <Sidebar.Item key={id} as={Link} href={sm.link}>{sm.name}</Sidebar.Item>
                   ))}
                 </Sidebar.Collapse>

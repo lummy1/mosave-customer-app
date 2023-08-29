@@ -5,6 +5,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { BiCreditCard } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
 import moment from 'moment'
+import Private2 from "../components/Layouts/Private2";
 
 type Props = {};
 
@@ -15,7 +16,7 @@ class TransactionPage extends Component<Props, State> {
 
   render() {
     return (
-      <Private>
+      <Private2 >
         <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
           <div className="mx-auto max-w-screen-2xl">
             <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -879,10 +880,13 @@ class TransactionPage extends Component<Props, State> {
                         </td>
                         <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           <div className="flex items-center">
-                            <div className="h-4 w-4 rounded-full inline-block mr-2 bg-red-700"></div>
-                            Premium
+                            <div className=" text-justify h-4 w-4 rounded-full inline-block mr-2 bg-red-700"></div>
+                            Savings
                           </div>
                         </td>
+                        <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        Premium
+                        </td> 
                         <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           5000
                         </td> 
@@ -1006,7 +1010,7 @@ class TransactionPage extends Component<Props, State> {
             </div>
           </div>
         </section>
-      </Private>
+      </Private2>
     );
   }
 }

@@ -18,7 +18,7 @@ export const data = [
   },
   {
     heading: "Total Wallet",
-    subheading: "The balance in your wallet",
+    subheading: "Your wallet balance",
     amount: "38000",
     icon: <FaWallet />,
     color: "bg-purple-300",

@@ -1,35 +1,43 @@
-"use client";
-import React, { Component } from 'react'
-import Private from '../components/Layouts/Private';
-import Private2 from '../components/Layouts/Private2';
-import Image from 'next/image';
+import React from "react";
+import Private2 from "../components/Layouts/Private2";
+import Breadcrumb from "../components/Breadcrumbs";
+import Image from "next/image";
 import { AiOutlineBank } from "react-icons/ai";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { FaRegMessage } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
-import Breadcrumb from '../components/Breadcrumbs';
 
-type Props = {}
+type Props = {};
 
-type State = {}
+const Utilities = (props: Props) => {
+  return (
+    <Private2>
 
-export default class page extends Component<Props, State> {
-  state = {}
-
-  render() {
-    return (
-      <Private2>
       <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="Savings" />
+        <Breadcrumb pageName="Utilities" />
 
         <div className="grid grid-cols-5 gap-8">
           <div className="col-span-5 xl:col-span-3">
             <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
-                  Save
+                  Utilities
                 </h3>
+                
               </div>
+
+              <div className="ud-mt-10 ud-flex ud-w-full ud-justify-center">
+        <div className="ud-inline-flex ud-flex-wrap ud-items-center ud-justify-center ud-gap-2 ud-rounded-xl ud-bg-white ud-p-2.5 ud-shadow-1 dark:ud-bg-box-dark">
+          <button className="ud-gradient-border -animate-gradient ud-relative ud-inline-flex ud-items-center ud-gap-2 ud-rounded-lg ud-py-3.5 ud-px-5 ud-font-medium hover:ud-bg-[#E1E8FF]/20 dark:hover:ud-bg-white/10 ud-text-primary ud-border-2 ud-border-primary u-animate-gradient ud-bg-[#E1E8FF]/20 dark:ud-bg-white/10 dark:ud-text-white"> 
+            Airtime
+          </button>
+          <button className="ud-gradient-border ud-relative ud-inline-flex ud-items-center ud-gap-2 ud-rounded-lg ud-py-3.5 ud-px-5 ud-font-medium hover:ud-bg-[#E1E8FF]/20 dark:hover:ud-bg-white/10 ud-text-black-2 dark:ud-text-black-5"> Data
+          </button>
+          
+        </div>
+      </div>
+
+
               <div className="p-7">
                 <form action="#">
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
@@ -38,20 +46,19 @@ export default class page extends Component<Props, State> {
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
                         htmlFor="fullName"
                       >
-                       Savings Plan
+                        Savings Plan
                       </label>
                       <div className="relative z-20 bg-white dark:bg-form-input">
-                  <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                    <AiOutlineBank className="w-5 h-5 text-greyIcon"  />                    
-                  </span>
-                  <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-950 active:border-primary-950 dark:border-form-strokedark dark:bg-form-input">
-                    <option value="">Select Plan</option>
-                    <option value="">Basic</option>
-                    <option value="">Premium</option>
-                  </select>                  
-                </div>
+                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                          <AiOutlineBank className="w-5 h-5 text-greyIcon" />
+                        </span>
+                        <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-950 active:border-primary-950 dark:border-form-strokedark dark:bg-form-input">
+                          <option value="">Select Plan</option>
+                          <option value="">Basic</option>
+                          <option value="">Premium</option>
+                        </select>
+                      </div>
                     </div>
-                    
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -71,27 +78,68 @@ export default class page extends Component<Props, State> {
 
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-1/2">
-                    <label  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="amount">
-                      Amount
+                      <label
+                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                        htmlFor="amount"
+                      >
+                        Amount
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4.5 top-4">
+                          <TbCurrencyNaira className="w-5 h-5 text-greyIcon" />
+                        </span>
+                        <input
+                          className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary-950 focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          type="text"
+                          name="amount"
+                          id="amount"
+                          defaultValue="0.00"
+                        />
+                      </div>
+                    </div>
+                    <div className="w-full sm:w-1/2">
+                      <label
+                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                        htmlFor="Username"
+                      >
+                        Reason
+                      </label>
+                      <div className="relative z-20 bg-white dark:bg-form-input">
+                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                          <FaRegMessage className="w-5 h-5 text-greyIcon" />
+                        </span>
+                        <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-950 active:border-primary-950 dark:border-form-strokedark dark:bg-form-input">
+                          <option value="">Select Reason</option>
+                          <option value="">UK</option>
+                          <option value="">Canada</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-5.5">
+                    <label
+                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      htmlFor="otherReason"
+                    >
+                      Reason
                     </label>
                     <div className="relative">
                       <span className="absolute left-4.5 top-4">
-                        <TbCurrencyNaira className="w-5 h-5 text-greyIcon" />
+                        <FiEdit className="w-5 h-5 text-greyIcon" />
                       </span>
-                      <input
+
+                      <textarea
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary-950 focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="text"
-                        name="amount"
-                        id="amount"
-                        defaultValue="0.00"
-                      />
+                        name="otherReason"
+                        id="otherReason"
+                        rows={6}
+                        placeholder="Specify the reason here"
+                        defaultValue=""
+                      ></textarea>
                     </div>
-                    </div>
-                    
                   </div>
 
-                
                   <div className="flex justify-end gap-4.5">
                     <button
                       className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
@@ -99,7 +147,8 @@ export default class page extends Component<Props, State> {
                     >
                       Cancel
                     </button>
-                    <button className="flex justify-center rounded bg-primary-950 py-2 px-6 font-medium text-white hover:bg-opacity-95"
+                    <button
+                      className="flex justify-center rounded bg-primary-950 py-2 px-6 font-medium text-white hover:bg-opacity-95"
                       type="submit"
                     >
                       Continue
@@ -210,6 +259,7 @@ export default class page extends Component<Props, State> {
         </div>
       </div>
     </Private2>
-    )
-  }
-}
+  );
+};
+
+export default Utilities;
