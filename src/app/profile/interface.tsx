@@ -30,6 +30,7 @@ export type IState = {
     imageBool: boolean,
     errorMessage: string
     avatar: string
+    disabled?: boolean
 }
 
 export type IProfile = {

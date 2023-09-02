@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { menus, menus2 } from '../../../constants/constant'
+import { menus, menus2 } from '../../constants/constant'
 import PropTypes from 'prop-types';
 
 type Iprops = {userData: object, open: boolean }

@@ -100,25 +100,25 @@ const Register = () => {
                     <div className="w-full">
                         <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                         <input type="text" name="firstName" autoComplete='off' id="firstName" onFocus={onFocus} value={firstName} onChange={onChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
-                        {/* <small className="mt-2 text-xs text-red-600 dark:text-red-600">{errors && errors.firstName}</small> */}
-                        <small className="mt-2 text-xs text-red-600 dark:text-red-600">{touched.firstName && errors.firstName}</small>
+                        {/* <small className="form-error">{errors && errors.firstName}</small> */}
+                        <small className="form-error">{touched.firstName && errors.firstName}</small>
                     </div>
                     <div className="w-full">
                         <label htmlFor="lastName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
                         <input type="text" name="lastName" autoComplete='off' id="lastName" onFocus={onFocus} value={lastName} onChange={onChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
-                        <small className="mt-2 text-xs text-red-600 dark:text-red-600">{touched.lastName && errors.lastName}</small>
+                        <small className="form-error">{touched.lastName && errors.lastName}</small>
                     </div>
 
                     <div className="">
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                         <input type="email" name="email" autoComplete='off' id="email" onFocus={onFocus} value={email} onChange={onChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        <small className="mt-2 text-xs text-red-600 dark:text-red-600">{touched.email && errors.email}</small>
+                        <small className="form-error">{touched.email && errors.email}</small>
                     </div>
 
                     <div className="w-full">
                         <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
                         <input type="text" name="phone" autoComplete='off' id="phone" onFocus={onFocus} value={phone} onChange={onChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
-                        <small className="mt-2 text-xs text-red-600 dark:text-red-600">{touched.phone && errors.phone}</small>
+                        <small className="form-error">{touched.phone && errors.phone}</small>
                     </div>
                     <div className="">
                         <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
@@ -141,7 +141,7 @@ const Register = () => {
                                 </div>
                             </div>
                         )}
-                        <small className="mt-2 text-xs text-red-600 dark:text-red-600">{touched.password && errors.password}</small>
+                        <small className="form-error">{touched.password && errors.password}</small>
                     </div>
                     <div className="">
                         <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
@@ -153,7 +153,7 @@ const Register = () => {
                                 </button>
                             </div>
                         </div>
-                        <small className="mt-2 text-xs text-red-600 dark:text-red-600">{touched.confirmPassword && errors.confirmPassword}</small>
+                        <small className="form-error">{touched.confirmPassword && errors.confirmPassword}</small>
                     </div>
                     {/* <div> */}
                     <div className="flex items-start sm:col-span-2">
@@ -167,7 +167,7 @@ const Register = () => {
                     </div>
                     <small className="text-xs text-red-600 dark:text-red-600">{touched.terms && errors.terms}</small>
                     {/* </div> */}
-                    <button type="submit" disabled={disabled} className={`${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} sm:col-span-2 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
+                    <button type="submit" disabled={disabled} className={`${isLoading || disabled ? "disabled" : " "} sm:col-span-2 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
                     <ButtonLoader isLoading={isLoading} text='Register' loadingText='Loading' />    
                     </button>
                     <p className="sm:col-span-2 text-sm font-light text-gray-500 dark:text-gray-400">

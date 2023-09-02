@@ -6,13 +6,15 @@ export const validationSchema = yup.object({
       .trim()
       .min(2, 'Please enter a valid first name')
       .max(30, 'First name can not be more than 30 characters')
-      .required('Please specify your first name'),
+      .matches(/^\S*$/, 'Whitespace is not allowed')
+      .required('Please enter your first name'),
     lastName: yup
       .string()
       .trim()
       .min(2, 'Please enter a valid last name')
       .max(30, 'Last name can not be more than 30 characters')
-      .required('Please specify your last name'),
+      .matches(/^\S*$/, 'Whitespace is not allowed')
+      .required('Please enter your last name'),
     email: yup
       .string()
       .trim()

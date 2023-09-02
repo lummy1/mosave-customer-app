@@ -41,6 +41,7 @@ class ProfilePage extends Component<Props, IState> {
             countries: [],
             imageBool: false,
             errorMessage: '',
+            disabled: true,
             avatar: '/imgs/profiles/img1.jpg'
         }
         this.imageRef = React.createRef();
@@ -127,17 +128,18 @@ class ProfilePage extends Component<Props, IState> {
     render() {
         const { firstName, lastName, email, phoneNo, role, department, country, city, address } = this.state.account;
         const { currentPassword, newPassword, newConfirmPassword } = this.state.pass;
+        const {mount, image, avatar, disabled, errorMessage, countries} = this.state
         const { data, response, isLoading, isFullLoading, isError, isSuccess, message } = this.props.profile
         return (
             <>
-                {this.state.mount && (
+                {mount && (
                     <Private2 >
                         <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
                             <div className="col-span-full xl:col-auto">
                                 <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                                     <div className="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
-                                        <img className="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0" src={this.state.image !== '' ? this.state.image : this.state.avatar} alt="profile" />
-                                        <small className={`${this.state.errorMessage === '' ? 'hidden' : ''} mt-2 text-xs text-red-600 dark:text-red-600`}>{this.state.errorMessage}</small>
+                                        <img className="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0" src={image !== '' ? image : avatar} alt="profile" />
+                                        <small className={`${errorMessage === '' ? 'hidden' : ''} form-error`}>{errorMessage}</small>
                                         <div>
                                             <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-white">Profile picture</h3>
 
@@ -145,7 +147,7 @@ class ProfilePage extends Component<Props, IState> {
                                                 JPG or PNG. Max size of 500KB
                                             </div>
                                             <div className="flex items-center space-x-4">
-                                                <button type="button" onClick={() => this.imageRef.current?.click()} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                                <button type="button" onClick={() => this.imageRef.current?.click()} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                                     <input id="upload" name="file" type="file" ref={this.imageRef} hidden onChange={this.handleChange} />
                                                     <HiOutlineCloudUpload size={20} className="w-4 h-4 mr-2 -ml-1" />
                                                     Upload picture
@@ -158,12 +160,12 @@ class ProfilePage extends Component<Props, IState> {
                                     </div>
                                 </div>
                                 <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                                    <h3 className="mb-4 text-xl font-semibold dark:text-white">Permissions</h3>
+                                    <h3 className="mb-4 text-xl font-semibold dark:text-white">Plans</h3>
                                     <div className="mb-4">
-                                        <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+                                        <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Savings Plans</label>
                                         <select id="role" name="role" value={role} onChange={(e) => this.onChange} className="bg-gray-50 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                            <option>Select Role</option>
-                                            <option>Admin</option>
+                                            <option>Select plans</option>
+                                            <option>Basic</option>
                                             <option>Super Admin</option>
                                             <option>Editor</option>
                                         </select>
@@ -178,7 +180,7 @@ class ProfilePage extends Component<Props, IState> {
                                         </select>
                                     </div>
                                     {/* <div>
-                                <button type='button'  className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Save Role</button>
+                                <button type='button'  className="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Save Role</button>
                             </div> */}
                                 </div>
 
@@ -221,7 +223,7 @@ class ProfilePage extends Component<Props, IState> {
                                                 <label htmlFor="country" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
                                                 <select id="country" name="country" value={country} onChange={(e) => this.onChange} className="bg-gray-50 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                                     <option>Select Country</option>
-                                                    {this.state.countries.length > 0 && this.state.countries.map((c, i) => (
+                                                    {countries.length > 0 && countries.map((c, i) => (
                                                         <option key={i} value={c.name}>{c.name}</option>
                                                     ))}
                                                 </select>
@@ -229,7 +231,7 @@ class ProfilePage extends Component<Props, IState> {
 
 
                                             <div className="col-span-6 sm:col-full">
-                                                <button type="submit"  disabled={isLoading} className={`${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg 
+                                                <button type="submit" disabled={disabled} className={`${isLoading || disabled ? "disabled" : " "} text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg 
                                         text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
                                                     <ButtonLoader isLoading={isLoading} text='Save Profile' loadingText='Processing' />  
                                                 </button>
@@ -257,7 +259,7 @@ class ProfilePage extends Component<Props, IState> {
                                                 <input type="password" value={newConfirmPassword} onChange={this.handlePassword} name="newConfirmPassword" autoComplete={"off"} required id="confirm-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
                                             </div>
                                             <div className="col-span-6 sm:col-full">
-                                                <button type="button" disabled={isLoading} onClick={this.savePassword} className={` ${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
+                                                <button type="button" disabled={disabled} onClick={this.savePassword} className={` ${isLoading || disabled? "disabled" : " "} text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
                                             <ButtonLoader isLoading={isLoading} text='Save Password' loadingText='Loading' /> 
                                         </button>
                                             </div>

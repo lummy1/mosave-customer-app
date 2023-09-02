@@ -14,11 +14,12 @@ export type Props = {
 }
 
 interface IState {
-    stateval: number,
+    numInputs: number,
     otp: string,
     phone: string
     complete: boolean,
     date: number,
+    disabled: boolean,
     mount: boolean
 }
 
@@ -33,16 +34,18 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
  class VerifyEmailPage extends Component<Props, IState> {
     countdownApi: CountdownApi | null = null;
     countdownInterval = 0;
+    
     //router = useRouter()
 
     constructor(props: any) {
         super(props);
         this.state = {
-            stateval: 1,
+            numInputs: 6,
             mount: false,
             phone: '',
             otp: '',
             complete: false,
+            disabled: true,
             date: Date.now() + Number(process.env.NEXT_PUBLIC_COUNTDOWN_TIMER) // 30 mins
         };
     }
@@ -72,6 +75,16 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
 
     componentWillUnmount(): void {
         this.clearInterval();
+    }
+
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<IState>): void {
+        if(prevState.otp !== this.state.otp ){
+            if(this.state.otp.length == this.state.numInputs){
+                this.setState({disabled: false});
+             } else {
+                 this.setState({disabled: true});
+             }
+        }        
     }
 
     start(): void {
@@ -127,6 +140,7 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
 
     render() {
         const { user, isLoading, isError, isSuccess, message } = this.props.verify
+        const {disabled, date, otp, numInputs, mount } = this.state
         return (
             <>
                 {this.state.mount && (
@@ -138,7 +152,7 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
                             <div>
                                 <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">{"We\'ve sent an OTP to your registered email address to complete this process."}</label>
 
-                                <OtpInput value={this.state.otp} renderInput={(props) => <input {...props} />} onChange={(e) => this.handleChange(e)} numInputs={6} inputType={'password'} shouldAutoFocus={true}
+                                <OtpInput value={otp} renderInput={(props) => <input {...props} />} onChange={(e) => this.handleChange(e)} numInputs={numInputs} inputType={'password'} shouldAutoFocus={true}
                                     inputStyle={{
                                         width: '3rem',
                                         height: '3rem',
@@ -159,8 +173,8 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
                                     <span className="text-xs text-gray-500 dark:text-gray-300">Code Expires in {' '}
-                                        {this.state.date > 0 && (
-                                            <Countdown daysInHours={true} key={this.state.date} ref={this.setRef} date={this.state.date} onMount={this.handleUpdate}
+                                        {date > 0 && (
+                                            <Countdown daysInHours={true} key={date} ref={this.setRef} date={date} onMount={this.handleUpdate}
                                                 onStart={this.handleUpdate} onComplete={this.onComplete} autoStart={true} />
                                         )}
                                     </span>
@@ -173,7 +187,7 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
                                 )}
                             </div>
 
-                            <button type="submit" className={`${isLoading ? "cursor-not-allowed bg-blue-400 opacity-25" : " "} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
+                            <button type="submit" disabled={disabled} className={`${isLoading || disabled ? "disabled" : " "} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
                              <ButtonLoader isLoading={isLoading} text='Verify' loadingText='Loading' /> 
                             </button>
 
