@@ -1,200 +1,252 @@
-"use client"
-import React, { ChangeEvent, Component, FormEvent, FormEventHandler } from 'react'
-import OtpInput from 'react-otp-input';
-import Countdown, { zeroPad, CountdownApi } from 'react-countdown';
-import { redirect, useRouter } from 'next/navigation';
-import Public from '@/app/components/Layouts/Public';
-import ButtonLoader from '@/app/components/ButtonLoader';
-import { connect } from 'react-redux';
-import { verifyOTP } from '@/redux/features/auth/authSlice';
+"use client";
+import React, {
+  ChangeEvent,
+  Component,
+  FormEvent,
+  FormEventHandler,
+} from "react";
+import OtpInput from "react-otp-input";
+import Countdown, { zeroPad, CountdownApi } from "react-countdown";
+import { redirect, useRouter } from "next/navigation";
+import Public from "@/app/components/Layouts/Public";
+import ButtonLoader from "@/app/components/ButtonLoader";
+import { connect } from "react-redux";
+import { verifyOTP } from "@/redux/features/auth/authSlice";
 
-export type Props = {
-    verify: any,
-    verifyOtp(name: string): any
-}
+type Props = {
+  verify: any;
+  verifyOtp(name: string): any;
+};
 
 interface IState {
-    numInputs: number,
-    otp: string,
-    phone: string
-    complete: boolean,
-    date: number,
-    disabled: boolean,
-    mount: boolean
+  numInputs: number;
+  otp: string;
+  phone: string;
+  complete: boolean;
+  date: number;
+  disabled: boolean;
+  mount: boolean;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
-    return {
-        verify: (otp: string) => dispatch(verifyOTP({otp: otp}))
+  return {
+    verify: (otp: string) => dispatch(verifyOTP({ otp: otp })),
+  };
+};
+
+const mapStateToProps = (state: any) => ({ auth: state.auth });
+
+class VerifyEmailPage extends Component<Props, IState> {
+  countdownApi: CountdownApi | null = null;
+  countdownInterval = 0;
+
+  //router = useRouter()
+
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      numInputs: 6,
+      mount: false,
+      phone: "",
+      otp: "",
+      complete: false,
+      disabled: true,
+      date: Date.now() + Number(process.env.NEXT_PUBLIC_COUNTDOWN_TIMER), // 30 mins
+    };
+  }
+
+  onSubmit: FormEventHandler<HTMLFormElement> = (
+    e: FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    console.log(this.state);
+    this.props.verifyOtp(this.state.otp);
+  };
+
+  handleChange = (otp: any) => {
+    console.log(otp);
+    this.setState({ otp });
+  };
+
+  resendOTP = (e: FormEvent) => {
+    e.preventDefault();
+    console.log("resend");
+    this.stop();
+  };
+
+  componentDidMount() {
+    this.start();
+    this.setState({ mount: true });
+  }
+
+  componentWillUnmount(): void {
+    this.clearInterval();
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<Props>,
+    prevState: Readonly<IState>
+  ): void {
+    if (prevState.otp !== this.state.otp) {
+      if (this.state.otp.length == this.state.numInputs) {
+        this.setState({ disabled: false });
+      } else {
+        this.setState({ disabled: true });
+      }
+    }
+  }
+
+  start(): void {
+    this.countdownInterval = window.setInterval(() => {
+      if (this.state.date <= 0) {
+        return this.clearInterval();
+      }
+      this.setState(({ date }) => ({ date: date - 1000 }));
+    }, 1000);
+  }
+
+  clearInterval(): void {
+    window.clearInterval(this.countdownInterval);
+  }
+
+  handleStartClick = (): void => {
+    this.countdownApi && this.countdownApi.start();
+  };
+
+  handlePauseClick = (): void => {
+    this.countdownApi && this.countdownApi.pause();
+  };
+
+  handleResetClick = (): void => {
+    this.setState({
+      date: Date.now() + Number(process.env.NEXT_PUBLIC_COUNTDOWN_TIMER),
+    });
+  };
+
+  handleUpdate = (): void => {
+    this.forceUpdate();
+  };
+
+  onComplete = (): void => {
+    this.setState({ complete: true });
+  };
+
+  setRef = (countdown: Countdown | null): void => {
+    if (countdown) {
+      this.countdownApi = countdown.getApi();
     }
   };
 
-const mapStateToProps = (state: any) => ({auth: state.auth});
+  isPaused(): boolean {
+    return !!(this.countdownApi && this.countdownApi.isPaused());
+  }
 
- class VerifyEmailPage extends Component<Props, IState> {
-    countdownApi: CountdownApi | null = null;
-    countdownInterval = 0;
-    
-    //router = useRouter()
+  isCompleted(): boolean {
+    return !!(this.countdownApi && this.countdownApi.isCompleted());
+  }
 
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            numInputs: 6,
-            mount: false,
-            phone: '',
-            otp: '',
-            complete: false,
-            disabled: true,
-            date: Date.now() + Number(process.env.NEXT_PUBLIC_COUNTDOWN_TIMER) // 30 mins
-        };
-    }
+  stop(): void {
+    this.countdownApi?.stop();
+  }
 
+  render() {
+    const { user, isLoading, isError, isSuccess, message } = this.props.verify;
+    const { disabled, date, otp, numInputs, mount } = this.state;
+    return (
+      <>
+        {this.state.mount && (
+          <Public>
+            <h2 className="mb-1 text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              Verify your email
+            </h2>
+            <form
+              className="mt-4 space-y-4 lg:mt-5 md:space-y-5"
+              onSubmit={this.onSubmit}
+            >
+              <div>
+                <label
+                  htmlFor="otp"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center"
+                >
+                  {
+                    "We've sent an OTP to your registered email address to complete this process."
+                  }
+                </label>
 
-    onSubmit: FormEventHandler<HTMLFormElement> = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        console.log(this.state)
-        this.props.verifyOtp(this.state.otp);
-    }
+                <OtpInput
+                  value={otp}
+                  renderInput={(props) => <input {...props} />}
+                  onChange={(e) => this.handleChange(e)}
+                  numInputs={numInputs}
+                  inputType={"password"}
+                  shouldAutoFocus={true}
+                  inputStyle={{
+                    width: "3rem",
+                    height: "3rem",
+                    margin: "0 0.5rem 0.5rem 0",
+                    fontSize: "2rem",
+                    borderRadius: "4px",
+                    border: "1px solid rgba(0, 0, 0, 0.3)",
+                  }}
+                  containerStyle={{
+                    justifyContent: "center",
+                  }}
 
-    handleChange = (otp: any) => {
-        console.log(otp);
-        this.setState({ otp });
-    };
+                  //separator={<span> &nbsp;&nbsp;&nbsp; </span>}
+                />
+              </div>
 
-    resendOTP = (e: FormEvent) => {
-        e.preventDefault();
-        console.log('resend')
-        this.stop();
-    }
-
-    componentDidMount() {
-        this.start();
-        this.setState({ mount: true })
-    }
-
-    componentWillUnmount(): void {
-        this.clearInterval();
-    }
-
-    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<IState>): void {
-        if(prevState.otp !== this.state.otp ){
-            if(this.state.otp.length == this.state.numInputs){
-                this.setState({disabled: false});
-             } else {
-                 this.setState({disabled: true});
-             }
-        }        
-    }
-
-    start(): void {
-        this.countdownInterval = window.setInterval(() => {
-            if (this.state.date <= 0) {
-                return this.clearInterval();
-            }
-            this.setState(({ date }) => ({ date: date - 1000 }));
-        }, 1000);
-    }
-
-    clearInterval(): void {
-        window.clearInterval(this.countdownInterval);
-    }
-
-    handleStartClick = (): void => {
-        this.countdownApi && this.countdownApi.start();
-    };
-
-    handlePauseClick = (): void => {
-        this.countdownApi && this.countdownApi.pause();
-    };
-
-    handleResetClick = (): void => {
-        this.setState({ date: Date.now() + Number(process.env.NEXT_PUBLIC_COUNTDOWN_TIMER) });
-    };
-
-    handleUpdate = (): void => {
-        this.forceUpdate();
-    };
-
-    onComplete = (): void => {
-        this.setState({ complete: true });
-    }
-
-    setRef = (countdown: Countdown | null): void => {
-        if (countdown) {
-            this.countdownApi = countdown.getApi();
-        }
-    };
-
-    isPaused(): boolean {
-        return !!(this.countdownApi && this.countdownApi.isPaused());
-    }
-
-    isCompleted(): boolean {
-        return !!(this.countdownApi && this.countdownApi.isCompleted());
-    }
-
-    stop(): void {
-        this.countdownApi?.stop();
-    }
-
-    render() {
-        const { user, isLoading, isError, isSuccess, message } = this.props.verify
-        const {disabled, date, otp, numInputs, mount } = this.state
-        return (
-            <>
-                {this.state.mount && (
-                    <Public>
-                        <h2 className="mb-1 text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Verify your email
-                        </h2>
-                        <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5" onSubmit={this.onSubmit}>
-                            <div>
-                                <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">{"We\'ve sent an OTP to your registered email address to complete this process."}</label>
-
-                                <OtpInput value={otp} renderInput={(props) => <input {...props} />} onChange={(e) => this.handleChange(e)} numInputs={numInputs} inputType={'password'} shouldAutoFocus={true}
-                                    inputStyle={{
-                                        width: '3rem',
-                                        height: '3rem',
-                                        margin: '0 0.5rem 0.5rem 0',
-                                        fontSize: '2rem',
-                                        borderRadius: '4px',
-                                        border: '1px solid rgba(0, 0, 0, 0.3)',
-                                    }}
-                                    containerStyle={{
-                                        justifyContent: 'center',
-                                    }}
-
-                                //separator={<span> &nbsp;&nbsp;&nbsp; </span>}
-                                />
-
-                            </div>
-
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-start">
-                                    <span className="text-xs text-gray-500 dark:text-gray-300">Code Expires in {' '}
-                                        {date > 0 && (
-                                            <Countdown daysInHours={true} key={date} ref={this.setRef} date={date} onMount={this.handleUpdate}
-                                                onStart={this.handleUpdate} onComplete={this.onComplete} autoStart={true} />
-                                        )}
-                                    </span>
-                                </div>
-                                {this.isCompleted() && (
-                                    <>
-                                        <span className="text-xs text-gray-500 dark:text-gray-300">{'Didn\'t receive the OTP?  '}</span>
-                                        <button type='button' className='text-xs text-gray-500 dark:text-gray-300' onClick={(e) => this.resendOTP(e)}>Resend</button>
-                                    </>
-                                )}
-                            </div>
-
-                            <button type="submit" disabled={disabled} className={`${isLoading || disabled ? "disabled" : " "} w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}>
-                             <ButtonLoader isLoading={isLoading} text='Verify' loadingText='Loading' /> 
-                            </button>
-
-                        </form>
-                    </Public>
+              <div className="flex items-center justify-between">
+                <div className="flex items-start">
+                  <span className="text-xs text-gray-500 dark:text-gray-300">
+                    Code Expires in{" "}
+                    {date > 0 && (
+                      <Countdown
+                        daysInHours={true}
+                        key={date}
+                        ref={this.setRef}
+                        date={date}
+                        onMount={this.handleUpdate}
+                        onStart={this.handleUpdate}
+                        onComplete={this.onComplete}
+                        autoStart={true}
+                      />
+                    )}
+                  </span>
+                </div>
+                {this.isCompleted() && (
+                  <>
+                    <span className="text-xs text-gray-500 dark:text-gray-300">
+                      {"Didn't receive the OTP?  "}
+                    </span>
+                    <button
+                      type="button"
+                      className="text-xs text-gray-500 dark:text-gray-300"
+                      onClick={(e) => this.resendOTP(e)}
+                    >
+                      Resend
+                    </button>
+                  </>
                 )}
-                {/* <Countdown
+              </div>
+
+              <button
+                type="submit"
+                disabled={disabled}
+                className={`${
+                  isLoading || disabled ? "disabled" : " "
+                } w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}
+              >
+                <ButtonLoader
+                  isLoading={isLoading}
+                  text="Verify"
+                  loadingText="Loading"
+                />
+              </button>
+            </form>
+          </Public>
+        )}
+        {/* <Countdown
                     key={this.state.date}
                     ref={this.setRef}
                     date={this.state.date}
@@ -204,7 +256,7 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
                     onComplete={this.handleUpdate}
                     autoStart={true}
                 /> */}
-                {/* <div>
+        {/* <div>
                     <button
                         type="button"
                         onClick={this.handleStartClick}
@@ -223,10 +275,11 @@ const mapStateToProps = (state: any) => ({auth: state.auth});
                         Reset
                     </button>
                 </div> */}
-
-            </>
-        );
-    }
+      </>
+    );
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailPage)
+// export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailPage)
+
+export default VerifyEmailPage;
