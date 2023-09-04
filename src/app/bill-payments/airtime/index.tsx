@@ -250,4 +250,6 @@ const mapState2Props = (state: any) => {
   return {};
 };
 
-export default connect(mapState2Props)(Airtime);
+// export default connect(mapState2Props)(Airtime);
+
+export default Airtime;

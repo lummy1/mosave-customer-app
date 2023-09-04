@@ -10,7 +10,7 @@ import Link from "next/link";
 import { data, data2, data3, trans } from "./constants";
 import { NumericFormat } from "react-number-format";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import moment from 'moment'
+import moment from "moment";
 
 type Props = {};
 
@@ -226,7 +226,7 @@ class DashboardPage extends Component<Props, State> {
                                   Type
                                 </th>
                                 <th scope="col" className="p-4">
-                                Amount
+                                  Amount
                                 </th>
                                 <th scope="col" className="p-4">
                                   Plan
@@ -266,7 +266,7 @@ class DashboardPage extends Component<Props, State> {
                                   </th>
                                   <td className="px-4 py-3">
                                     <span className="bg-primary-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-                                    {item.type}
+                                      {item.type}
                                     </span>
                                   </td>
                                   <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -281,8 +281,8 @@ class DashboardPage extends Component<Props, State> {
                                     Basic
                                   </td>
                                   <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {moment().format('YYYY-MM-DD hh:mm:ss')}
-                        </td> 
+                                    {moment().format("YYYY-MM-DD hh:mm:ss")}
+                                  </td>
                                   <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div className="flex items-center space-x-4">
                                       <button
@@ -318,4 +318,6 @@ const mapDispatchToProps = (dispatch: any) => {
     signIn: () => dispatch(fetch()),
   };
 };
-export default connect(null, mapDispatchToProps)(DashboardPage);
+// export default connect(null, mapDispatchToProps)(DashboardPage);
+
+export default DashboardPage;
