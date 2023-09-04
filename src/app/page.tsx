@@ -6,14 +6,14 @@ import HomeHeader from "./components/Layouts/HomeHeader";
 export default function Home() {
   return (
     <>
-    <HomeHeader />
+      <HomeHeader />
       <div>
         <section className="bg-white dark:bg-gray-900">
           {/* gap-8 */}
           <div className="items-center py-8 px-4 mx-auto max-w-7xl gap-8 xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
             <div>
               <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-black dark:text-white">
-                Let's create more tools and ideas that brings us together.
+                {"Let's create more tools and ideas that brings us together."}
               </h2>
               <p className="mb-6 font-light text-gray-400 md:text-lg dark:text-gray-400">
                 Flowbite helps you connect with friends and communities of
@@ -80,7 +80,9 @@ export default function Home() {
               className="hidden mx-auto w-64 md:flex"
               src="/imgs/others/iphone-mockup.png"
               alt="mobile app"
-              width={0} height={0} sizes="100vw"
+              width={0}
+              height={0}
+              sizes="100vw"
             />
           </div>
         </section>

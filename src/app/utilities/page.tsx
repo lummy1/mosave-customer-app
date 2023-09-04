@@ -41,36 +41,38 @@ const options = [
   { value: "MTN", label: "MTN", icon: "/imgs/telcos/mtn.svg" },
 ];
 const dataPlans = {
-    "request": "fetch_data_plans",
-    "status":"success",
-    "data":[
-            {"plan": "1000",
-            "label": "1GB",
-            "operator": "MTN",
-            "validity": "30",
-            "price": "600",
-            "currency": "NGN"
-          },
-          {"plan": "2000",
-            "label": "2GB",
-            "operator": "MTN",
-            "validity": "30",
-            "price": "1100",
-            "currency": "NGN"
-          }
-          ,
-          {"plan": "10000.01",
-            "label": "10GB",
-            "operator": "MTN",
-            "validity": "30",
-            "price": "2000",
-            "currency": "NGN"
-          }
-    ]
-} 
+  request: "fetch_data_plans",
+  status: "success",
+  data: [
+    {
+      plan: "1000",
+      label: "1GB",
+      operator: "MTN",
+      validity: "30",
+      price: "600",
+      currency: "NGN",
+    },
+    {
+      plan: "2000",
+      label: "2GB",
+      operator: "MTN",
+      validity: "30",
+      price: "1100",
+      currency: "NGN",
+    },
+    {
+      plan: "10000.01",
+      label: "10GB",
+      operator: "MTN",
+      validity: "30",
+      price: "2000",
+      currency: "NGN",
+    },
+  ],
+};
 
 class Utilities extends Component<Props, IState> {
-  initialValues = { phoneNo: "", network: "", amount: parseInt("") };
+  initialValues = { phoneNo: "", network: "", amount: 0 };
   initialErrors = { phoneNo: "", network: "", amount: "" };
   initialNetwork = { icon: "", label: "", value: "" };
   initialTouched = { phoneNo: false, network: false, amount: false };
@@ -88,7 +90,7 @@ class Utilities extends Component<Props, IState> {
       },
     },
   ];
-  
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -120,7 +122,7 @@ class Utilities extends Component<Props, IState> {
   }
 
   validate = () => {
-    const initialFormErrors = { phoneNo: "", network: "", amount: "" };
+    const initialFormErrors = {};
     validationSchema
       .validate(this.state.params, { abortEarly: false })
       .then(() => {
@@ -143,8 +145,10 @@ class Utilities extends Component<Props, IState> {
 
   handleChange = (selectedNetwork: any) => {
     this.setState({ selectedNetwork }, () => {
-      console.log(`Option selected:`, this.state.selectedNetwork);
-      this.state.params.network = this.state.selectedNetwork!.value!;
+      // console.log(`Option selected:`, this.state.selectedNetwork);
+    });
+    this.setState({
+      params: { ...this.state.params, network: selectedNetwork.value },
     });
   };
 
@@ -180,8 +184,15 @@ class Utilities extends Component<Props, IState> {
     this.validate();
   };
   render() {
-    const { selectedNetwork, mount, formErrors, touched, disabled,  currentTab } = this.state;
-    const { phoneNo, amount, network } = this.state.params;
+    const {
+      selectedNetwork,
+      mount,
+      formErrors,
+      touched,
+      disabled,
+      currentTab,
+    } = this.state;
+    const { phoneNo, amount } = this.state.params;
     return (
       <>
         {mount && (
@@ -191,8 +202,6 @@ class Utilities extends Component<Props, IState> {
               <div className="grid grid-cols-5 gap-8">
                 <div className="col-span-5 xl:col-span-3">
                   <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                    
-
                     <ul className="border-stroke dark:border-strokedark text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow flex dark:divide-gray-700 dark:text-gray-400">
                       {this.tabs.map((tab, i) => (
                         <li key={i} className="w-full">
@@ -262,7 +271,9 @@ class Utilities extends Component<Props, IState> {
                                         />
                                       </div>
                                     )}
-                                    <span className="dark:text-white">{item.label}</span>
+                                    <span className="dark:text-white">
+                                      {item.label}
+                                    </span>
                                   </div>
                                 )}
                               />

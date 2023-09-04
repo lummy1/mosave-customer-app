@@ -1,19 +1,19 @@
 import React, {
-    ChangeEvent,
-    Component,
-    FormEvent,
-    MouseEventHandler,
-  } from "react";
-import { connect } from 'react-redux'
-  import Image from "next/image";
-  import { TbCurrencyNaira } from "react-icons/tb";
-  import Select from "react-select";
-  import { IBoolean, IString } from "@/utils/interface";
-  import parsePhoneNumberFromString from "libphonenumber-js";
+  ChangeEvent,
+  Component,
+  FormEvent,
+  MouseEventHandler,
+} from "react";
+import { connect } from "react-redux";
+import Image from "next/image";
+import { TbCurrencyNaira } from "react-icons/tb";
+import Select from "react-select";
+import { IBoolean, IString } from "@/utils/interface";
+import parsePhoneNumberFromString from "libphonenumber-js";
 import { airtimeValidationSchema } from "@/validations/billPaymentValidation";
 
 interface IAirtimeProps {
-    options: any[]
+  options: any[];
 }
 
 interface IState {
@@ -32,211 +32,214 @@ interface IParams {
 }
 
 class Airtime extends Component<IAirtimeProps, IState> {
-    initialValues = { phoneNo: "", network: "", amount: 0 };
-    initialErrors = { phoneNo: "", network: "", amount: "" };
-    initialNetwork = { icon: "", label: "", value: "" };
-    initialTouched = { phoneNo: false, network: false, amount: false };
-    constructor(props: IAirtimeProps) {
-      super(props);
-      this.state = {
+  initialValues = { phoneNo: "", network: "", amount: 0 };
+  initialErrors = { phoneNo: "", network: "", amount: "" };
+  initialNetwork = { icon: "", label: "", value: "" };
+  initialTouched = { phoneNo: false, network: false, amount: false };
+  constructor(props: IAirtimeProps) {
+    super(props);
+    this.state = {
       selectedNetwork: this.initialNetwork,
       params: this.initialValues,
       formErrors: this.initialErrors,
       touched: this.initialTouched,
       disabled: true,
-      }
+    };
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<IAirtimeProps>,
+    prevState: Readonly<IState>
+  ): void {
+    if (prevState.params !== this.state.params) {
+      this.validate();
     }
+  }
 
-    componentDidUpdate(
-        prevProps: Readonly<IAirtimeProps>,
-        prevState: Readonly<IState>
-      ): void {
-        if (prevState.params !== this.state.params) {
-          this.validate();
-        }
-      }
-    
-      validate = () => {
-        const initialFormErrors = { phoneNo: "", network: "", amount: "" };
-        airtimeValidationSchema
-          .validate(this.state.params, { abortEarly: false })
-          .then(() => {
-            this.setState({ formErrors: initialFormErrors });
-          })
-          .catch((err: any) => {
-            const errors: IString = initialFormErrors;
-            err.inner.forEach((error: any) => {
-              if (this.state.touched[error.path]) {
-                errors[error.path] = error.message;
-              }
-            });
-            this.setState({ formErrors: errors });
-          });
-    
-          airtimeValidationSchema
-          .isValid(this.state.params)
-          .then((valid) => this.setState({ disabled: !valid }));
-      };
-    
-      handleChange = (selectedNetwork: any) => {
-        this.setState({ selectedNetwork }, () => {
-          this.state.params.network = this.state.selectedNetwork!.value!;
-          this.onBlur();
+  validate = () => {
+    const initialFormErrors = { phoneNo: "", network: "", amount: "" };
+    airtimeValidationSchema
+      .validate(this.state.params, { abortEarly: false })
+      .then(() => {
+        this.setState({ formErrors: initialFormErrors });
+      })
+      .catch((err: any) => {
+        const errors: IString = initialFormErrors;
+        err.inner.forEach((error: any) => {
+          if (this.state.touched[error.path]) {
+            errors[error.path] = error.message;
+          }
         });
-      };
-    
-      onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-          params: {
-            ...this.state.params,
-            [e.target.name]: e.target.value,
-          },
-        });
-      };
-    
-      submit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(this.state.params);
-        console.log(
-          JSON.stringify(
-            parsePhoneNumberFromString(this.state.params.phoneNo, "NG"),
-            null,
-            2
-          )
-        );
-      };
-    
-      onFocus = (
-        e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-      ) => {
-        const { name } = e.target;
-        const { id } = e.target;
-        this.setState({ touched: { ...this.state.touched, [name === "" ? id : name]: true } });
-      };
-    
-      onBlur = () => {
-        this.validate();
-      };
+        this.setState({ formErrors: errors });
+      });
 
+    airtimeValidationSchema
+      .isValid(this.state.params)
+      .then((valid) => this.setState({ disabled: !valid }));
+  };
+
+  handleChange = (selectedNetwork: any) => {
+    this.setState({ selectedNetwork }, () => {
+      this.onBlur();
+    });
+    this.setState({
+      params: { ...this.state.params, network: selectedNetwork.value },
+    });
+  };
+
+  onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      params: {
+        ...this.state.params,
+        [e.target.name]: e.target.value,
+      },
+    });
+  };
+
+  submit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(this.state.params);
+    console.log(
+      JSON.stringify(
+        parsePhoneNumberFromString(this.state.params.phoneNo, "NG"),
+        null,
+        2
+      )
+    );
+  };
+
+  onFocus = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name } = e.target;
+    const { id } = e.target;
+    this.setState({
+      touched: { ...this.state.touched, [name === "" ? id : name]: true },
+    });
+  };
+
+  onBlur = () => {
+    this.validate();
+  };
 
   public render() {
-    const { selectedNetwork, formErrors, touched, disabled, } = this.state;
+    const { selectedNetwork, formErrors, touched, disabled } = this.state;
     const { phoneNo, amount, network } = this.state.params;
     return (
       <div>
         <form action="/" onSubmit={this.submit}>
-                        <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                          <div className="w-full sm:w-1/2">
-                            <label
-                              className="mb-3 block text-sm font-medium text-black dark:text-white"
-                              htmlFor="network"
-                            >
-                              Service Provider
-                            </label>
-                            <div className="relative z-20 bg-white dark:bg-form-input">
-                              <Select
-                                classNamePrefix="react-select"
-                                isSearchable={false}
-                                value={selectedNetwork}
-                                id="network"
-                                name="network"
-                                placeholder={"Select Provider"}
-                                inputId="network"
-                                instanceId="airtime"
-                                onChange={this.handleChange}
-                                onFocus={this.onFocus}
-                                onBlur={this.onBlur}
-                                options={this.props.options}
-                                formatOptionLabel={(item: any) => (
-                                  <div className="flex gap-1">
-                                    {item.icon !== "" && (
-                                      <div className="">
-                                        <Image
-                                          src={item.icon}
-                                          width={30}
-                                          height={30}
-                                          alt="network"
-                                        />
-                                      </div>
-                                    )}
-                                    <span className="dark:text-white">{item.label}</span>
-                                  </div>
-                                )}
-                              />
-                              <small className="form-error">
-                                {touched.network && formErrors.network}
-                              </small>
-                            </div>
-                          </div>
-                          <div className="w-full sm:w-1/2">
-                            <label
-                              className="mb-3 block text-sm font-medium text-black dark:text-white"
-                              htmlFor="phoneNo"
-                            >
-                              Recipient Phone Number
-                            </label>
-                            <input
-                              className="w-full rounded border border-stroke bg-white py-3 px-4.5 text-black focus:border-primary-600 focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary-600"
-                              type="number"
-                              name="phoneNo"
-                              id="phoneNo"
-                              value={phoneNo}
-                              onChange={this.onChange}
-                              onFocus={this.onFocus}
-                              onBlur={this.onBlur}
-                            />
-                            <small className="form-error">
-                              {touched.phoneNo && formErrors.phoneNo}
-                            </small>
-                          </div>
+          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+            <div className="w-full sm:w-1/2">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="network"
+              >
+                Service Provider
+              </label>
+              <div className="relative z-20 bg-white dark:bg-form-input">
+                <Select
+                  classNamePrefix="react-select"
+                  isSearchable={false}
+                  value={selectedNetwork}
+                  id="network"
+                  name="network"
+                  placeholder={"Select Provider"}
+                  inputId="network"
+                  instanceId="airtime"
+                  onChange={this.handleChange}
+                  onFocus={this.onFocus}
+                  onBlur={this.onBlur}
+                  options={this.props.options}
+                  formatOptionLabel={(item: any) => (
+                    <div className="flex gap-1">
+                      {item.icon !== "" && (
+                        <div className="">
+                          <Image
+                            src={item.icon}
+                            width={30}
+                            height={30}
+                            alt="network"
+                          />
                         </div>
+                      )}
+                      <span className="dark:text-white">{item.label}</span>
+                    </div>
+                  )}
+                />
+                <small className="form-error">
+                  {touched.network && formErrors.network}
+                </small>
+              </div>
+            </div>
+            <div className="w-full sm:w-1/2">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="phoneNo"
+              >
+                Recipient Phone Number
+              </label>
+              <input
+                className="w-full rounded border border-stroke bg-white py-3 px-4.5 text-black focus:border-primary-600 focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary-600"
+                type="number"
+                name="phoneNo"
+                id="phoneNo"
+                value={phoneNo}
+                onChange={this.onChange}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+              />
+              <small className="form-error">
+                {touched.phoneNo && formErrors.phoneNo}
+              </small>
+            </div>
+          </div>
 
-                        <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                          <div className="w-full sm:w-1/2">
-                            <label
-                              className="mb-3 block text-sm font-medium text-black dark:text-white"
-                              htmlFor="amount"
-                            >
-                              Amount
-                            </label>
-                            <div className="relative">
-                              <span className="absolute left-4.5 top-4">
-                                <TbCurrencyNaira className="w-5 h-5 text-greyIcon" />
-                              </span>
-                              <input
-                                className="w-full rounded border border-stroke bg-white py-3 pl-11.5 pr-4.5 text-black focus:border-primary-600 focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary-600"
-                                type="number"
-                                name="amount"
-                                id="amount"
-                                value={amount}
-                                onChange={this.onChange}
-                                onFocus={this.onFocus}
-                                onBlur={this.onBlur}
-                              />
-                              <small className="form-error">
-                                {touched.amount && formErrors.amount}
-                              </small>
-                            </div>
-                          </div>
-                        </div>
+          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+            <div className="w-full sm:w-1/2">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="amount"
+              >
+                Amount
+              </label>
+              <div className="relative">
+                <span className="absolute left-4.5 top-4">
+                  <TbCurrencyNaira className="w-5 h-5 text-greyIcon" />
+                </span>
+                <input
+                  className="w-full rounded border border-stroke bg-white py-3 pl-11.5 pr-4.5 text-black focus:border-primary-600 focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary-600"
+                  type="number"
+                  name="amount"
+                  id="amount"
+                  value={amount}
+                  onChange={this.onChange}
+                  onFocus={this.onFocus}
+                  onBlur={this.onBlur}
+                />
+                <small className="form-error">
+                  {touched.amount && formErrors.amount}
+                </small>
+              </div>
+            </div>
+          </div>
 
-                        <div className="flex justify-end gap-4.5">
-                          <button
-                            className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                            type="button"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            disabled={disabled}
-                            className={`${
-                              disabled ? "disabled" : ""
-                            } flex justify-center rounded bg-primary-600 py-2 px-6 font-medium text-white hover:bg-opacity-95`}
-                            type="submit"
-                          >
-                            Continue
-                          </button>
-                        </div>
+          <div className="flex justify-end gap-4.5">
+            <button
+              className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              disabled={disabled}
+              className={`${
+                disabled ? "disabled" : ""
+              } flex justify-center rounded bg-primary-600 py-2 px-6 font-medium text-white hover:bg-opacity-95`}
+              type="submit"
+            >
+              Continue
+            </button>
+          </div>
         </form>
       </div>
     );
@@ -244,8 +247,7 @@ class Airtime extends Component<IAirtimeProps, IState> {
 }
 
 const mapState2Props = (state: any) => {
-  return {
-  };
-}
+  return {};
+};
 
 export default connect(mapState2Props)(Airtime);
