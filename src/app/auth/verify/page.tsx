@@ -9,7 +9,7 @@ import OtpInput from "react-otp-input";
 import Countdown, { zeroPad, CountdownApi } from "react-countdown";
 import { redirect, useRouter } from "next/navigation";
 import Public from "@/app/components/Layouts/Public";
-import ButtonLoader from "@/app/components/ButtonLoader";
+import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 import { connect } from "react-redux";
 import { verifyOTP } from "@/redux/features/auth/authSlice";
 

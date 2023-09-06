@@ -1,5 +1,5 @@
 "use client";
-import ButtonLoader from "@/app/components/ButtonLoader";
+import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 import Public from "@/app/components/Layouts/Public";
 import { reset, resetPassword } from "@/redux/features/auth/authSlice";
 import { AppDispatch, useAppSelector } from "@/redux/store/store";

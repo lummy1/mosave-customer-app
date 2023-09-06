@@ -3,18 +3,27 @@ import {
   BsCreditCard2Back,
   BsFillCreditCardFill,
   BsFillSave2Fill,
+  BsPhone,
+  BsPhoneFlip,
+  BsPiggyBank,
 } from "react-icons/bs";
-import { BiCreditCard, BiMoney, BiSolidWalletAlt, BiSupport } from "react-icons/bi";
+import {
+  BiCreditCard,
+  BiMoney,
+  BiSolidWalletAlt,
+  BiSupport,
+} from "react-icons/bi";
 import { HiSwitchHorizontal } from "react-icons/hi";
+import { MdOutlinePhoneIphone } from "react-icons/md";
 
 export const data = [
   {
     heading: "Total Balance",
     subheading: "Your remaining balance",
-    amount: "52000",
+    amount: "350000",
     icon: <BiCreditCard />,
     color: "bg-blue-300",
-    bg: "bg-customBlue-100",
+    bg: "bg-primary-600",
   },
   {
     heading: "Total Wallet",
@@ -22,7 +31,7 @@ export const data = [
     amount: "38000",
     icon: <FaWallet />,
     color: "bg-purple-300",
-    bg: "bg-purple-100",
+    bg: "bg-primary-600",
   },
   {
     heading: "Total Rewards",
@@ -30,7 +39,7 @@ export const data = [
     amount: "15000",
     icon: <BsFillCreditCardFill />,
     color: "bg-green-300",
-    bg: "bg-green-100",
+    bg: "bg-primary-600",
   },
   {
     heading: "Total Interest",
@@ -38,7 +47,7 @@ export const data = [
     amount: "3000",
     icon: <BsCreditCard2Back />,
     color: "bg-red-300",
-    bg: "bg-customRed-100",
+    bg: "bg-primary-600",
   },
 ];
 export const data2 = [
@@ -75,50 +84,50 @@ export const data3 = [
   {
     heading: "Deposit",
     color: "primary",
-    icon: (classes: string) => {
-      return <BsFillSave2Fill className={classes} />; 
-    },
     href: "/savings",
+    icon: (classes: string) => {
+      return <BsPiggyBank className={classes} />;
+    },
   },
   {
     heading: "Withdraw",
-    color: "purple",
+    color: "primary",
+    href: "/withdraw",
     icon: (classes: string) => {
       return <BiCreditCard className={classes} />;
     },
-    href: "/withdraw",
   },
   {
     heading: "Fund Wallet",
+    color: "primary",
+    href: "/fund-wallet",
     icon: (classes: string) => {
       return <BiSolidWalletAlt className={classes} />;
     },
-    color: "teal",
-    href: "/fund-wallet",
   },
   {
-    heading: "Invest",
+    heading: "Top Up",
+    color: "primary",
+    href: "/bill-payments",
     icon: (classes: string) => {
-      return <HiSwitchHorizontal className={classes} />;
+      return <MdOutlinePhoneIphone className={classes} />;
     },
-    color: "red",
-    href: "/invest",
   },
   {
     heading: "Transactions",
-    icon: (classes: string) => {
-      return <FaPiggyBank className={classes} />;
-    },
     color: "primary",
     href: "/transaction-history",
+    icon: (classes: string) => {
+      return <BsFillSave2Fill className={classes} />;
+    },
   },
   {
-    heading: "Support",
+    heading: "Get Help",
+    color: "primary",
+    href: "/support",
     icon: (classes: string) => {
       return <BiSupport className={classes} />;
     },
-    color: "purple",
-    href: "/support",
   },
 ];
 
@@ -129,8 +138,8 @@ export const trans = [
     color: "customError",
     amount: "5000",
     icon: (classes: string) => {
-      return <BsFillSave2Fill className={classes} />;
-    }
+      return <BsPiggyBank className={classes} />;
+    },
   },
   {
     type: "Withdraw",
@@ -139,7 +148,7 @@ export const trans = [
     amount: "3000",
     icon: (classes: string) => {
       return <BiCreditCard className={classes} />;
-    }
+    },
   },
   {
     type: "Commission",
@@ -148,7 +157,30 @@ export const trans = [
     amount: "500",
     icon: (classes: string) => {
       return <BiMoney className={classes} />;
-    }
+    },
   },
+];
 
+export const callToAction = [
+  {
+    title: "Manage your budget",
+    text: "Lorem ipsum dolor sit amet consectetur. Egestas nunc sed sit sed.",
+    button: "Manage your budget",
+    href: "/",
+    color: "secondary-400",
+  },
+  {
+    title: "Share Earn Rewards",
+    text: "Lorem ipsum dolor sit amet consectetur. Egestas nunc sed sit sed.",
+    button: "Refer Friends",
+    href: "/",
+    color: "primary-400",
+  },
+  {
+    title: "Invest and Grow your Cash",
+    text: "Lorem ipsum dolor sit amet consectetur. Egestas nunc sed sit sed.",
+    button: "Proceed",
+    href: "/",
+    color: "tertiary-700",
+  },
 ];

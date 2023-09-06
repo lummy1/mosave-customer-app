@@ -3,7 +3,7 @@ import React, { ChangeEvent, Component, FormEvent } from "react";
 import Private from "../components/Layouts/Private";
 import { HiOutlineCloudUpload } from "react-icons/hi";
 import { connect, useSelector } from "react-redux";
-import ButtonLoader from "../components/ButtonLoader";
+import ButtonLoader from "../components/Loader/ButtonLoader";
 import axios from "axios";
 import { IProfile, IState, Props } from "./interface";
 import { fetch } from "@/redux/features/profile/profileSlice";

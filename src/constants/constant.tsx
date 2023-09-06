@@ -43,6 +43,10 @@ export const menus: IMenu[] = [
             name: "Withdrawal",
             link: "/withdraw",
           },
+          {
+            name: "View Plans",
+            link: "/plans",
+          },
         ],
       },
       {

@@ -17,7 +17,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Public from "@/app/components/Layouts/Public";
 import { validationSchema } from "@/validations/loginValidation";
 import { IBoolean, ILogin, IString } from "@/utils/interface";
-import ButtonLoader from "@/app/components/ButtonLoader";
+import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 
 const Login = () => {
   const initialValue = { email: "", password: "" };

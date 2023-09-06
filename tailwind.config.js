@@ -21,6 +21,7 @@ module.exports = {
       },
       colors: {
         primary: {
+          25: "#FFDFE0",
           50: "#ffe6e7",
           100: "#ffb0b3",
           200: "#ff8a8e",
@@ -32,6 +33,36 @@ module.exports = {
           800: "#8c0006",
           900: "#6b0004",
           950: "#3C50E0",
+        },
+        secondary: {
+          50: "#E6F7FD",
+          75: "#CAF1FF",
+          100: "#B0E6FA",
+          200: "#8ADAF8",
+          300: "#54C9F4",
+          400: "#33BEF2",
+          500: "#00AEEF",
+          600: "#009ED9",
+          700: "#007CAA",
+          800: "#006083",
+          900: "#004964",
+        },
+        tertiary: {
+          50: "#F5EEFE",
+          75: "#F4EBFF",
+          100: "#DECBFC",
+          200: "#CFB2FB",
+          300: "#B98EF9",
+          400: "#AB79F8",
+          500: "#9657F6",
+          600: "#894FE0",
+          700: "#6B3EAF",
+          800: "#533087",
+          900: "#3F2567",
+        },
+        success: {
+          100: "#E6FBF3",
+          700: "#00985E",
         },
         primaryDefault: {
           50: "#eff6ff",
@@ -57,6 +88,10 @@ module.exports = {
           700: "#0B111C",
           800: "#090D16",
           900: "#070A11",
+        },
+        grayScale: {
+          100: "#F5F6F7",
+          200: "rgba(0, 0, 0, 0.70)",
         },
         customRed: {
           100: "#FFE6E7",
@@ -86,7 +121,6 @@ module.exports = {
           800: "#E24A33",
         },
         primary2: "#25aae1",
-        secondary: "#c10006",
         info: "#096df3",
         warning: { 100: "rgb(253 246 178)", 600: "#eabb2d", 700: "#eabb2d" },
         // black: "#1d1d1d",
@@ -98,8 +132,6 @@ module.exports = {
         bodydark: "#AEB7C0",
         bodydark1: "#DEE4EE",
         bodydark2: "#8A99AF",
-        // primary: "#3C50E0",
-        secondary: "#80CAEE",
         stroke: "#E2E8F0",
         // gray: "#EFF4FB",
         graydark: "#333A48",
@@ -122,7 +154,7 @@ module.exports = {
         "meta-7": "#FF6766",
         "meta-8": "#F0950C",
         "meta-9": "#E5E7EB",
-        success: "#219653",
+        // success: "#219653",
         danger: "#D34053",
         warnings: "#FFA70B",
       },
@@ -274,7 +306,8 @@ module.exports = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        img1: "url('./src/imgs/img1.png')",
+        cardBg: "url('/imgs/bg/card.png')",
+        planBg: "url('/imgs/bg/plans.png')",
       },
       content: {
         "icon-copy": 'url("../images/icon/icon-copy-alt.svg")',
@@ -358,13 +391,9 @@ module.exports = {
   //safelist: [/^w-/, "customSuccess", "customError"],
   safelist: [
     {
-      pattern: /(bg|text|border)-(red|gray|customSuccess)-300/,
-      variants: ["hover"],
-    },
-    {
       pattern:
-        /(bg|text|border)-(red|green|blue|customSuccess|customError|warning)-(100|200|300|400|500|600|700|800)/,
-      variants: ["lg", "hover", "focus", "lg:hover"],
+        /(bg|text|border)-(red|green|blue|gray|primary|secondary|tertiary|success|customSuccess|customError|warning)-(25|50|100|200|300|400|500|600|700|800)/,
+      variants: ["lg", "bg", "text", "hover", "focus", "lg:hover"],
     },
   ],
   plugins: [

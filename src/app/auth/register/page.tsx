@@ -13,7 +13,7 @@ import React, {
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { validationSchema } from "@/validations/registerValidation";
 import { IBoolean, IPasswordType, IRegister } from "@/utils/interface";
-import ButtonLoader from "@/app/components/ButtonLoader";
+import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 import { AppDispatch, useAppSelector } from "@/redux/store/store";
 import { redirect } from "next/navigation";
 import { useDispatch } from "react-redux";
