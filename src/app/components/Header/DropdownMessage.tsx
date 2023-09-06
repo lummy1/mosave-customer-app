@@ -106,6 +106,7 @@ const DropdownMessage = () => {
                   height={112}
                   src={"/imgs/profiles/img1.jpg"}
                   alt="User"
+                  className="rounded-full"
                 />
               </div>
 
@@ -129,6 +130,7 @@ const DropdownMessage = () => {
                   height={112}
                   src={"/imgs/profiles/img1.jpg"}
                   alt="User"
+                  className="rounded-full"
                 />
               </div>
 
@@ -152,6 +154,7 @@ const DropdownMessage = () => {
                   height={112}
                   src={"/imgs/profiles/img1.jpg"}
                   alt="User"
+                  className="rounded-full"
                 />
               </div>
 
@@ -175,6 +178,7 @@ const DropdownMessage = () => {
                   height={112}
                   src={"/imgs/profiles/img1.jpg"}
                   alt="User"
+                  className="rounded-full"
                 />
               </div>
 
@@ -198,6 +202,7 @@ const DropdownMessage = () => {
                   height={112}
                   src={"/imgs/profiles/img1.jpg"}
                   alt="User"
+                  className="rounded-full"
                 />
               </div>
 

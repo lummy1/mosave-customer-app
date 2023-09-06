@@ -17,8 +17,8 @@ class Referrals extends React.Component<IReferralsProps, IReferralsState> {
     return (
       <Private2>
         <div className="mx-auto max-w-270">
-          <Breadcrumb pageName="Settings" />
-          Settings Page
+          <Breadcrumb pageName="Referrals" />
+          Referral Page
         </div>
       </Private2>
     );

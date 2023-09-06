@@ -11,14 +11,15 @@ const RightBar = (props: Props) => {
           <h3 className="font-medium text-black dark:text-white">Your Photo</h3>
         </div>
         <div className="p-7">
-          <form action="#">
+          <form action="">
             <div className="mb-4 flex items-center gap-3">
               <div className="h-14 w-14 rounded-full">
                 <Image
-                  src={"/images/user/user-03.png"}
+                  src={"/imgs/profiles/john.png"}
                   width={55}
                   height={55}
                   alt="User"
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -84,16 +85,10 @@ const RightBar = (props: Props) => {
             </div>
 
             <div className="flex justify-end gap-4.5">
-              <button
-                className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                type="submit"
-              >
+              <button className="cancelButton" type="button">
                 Cancel
               </button>
-              <button
-                className="flex justify-center rounded bg-primary-600 py-2 px-6 font-medium text-white hover:bg-opacity-95"
-                type="submit"
-              >
+              <button className="submitButton" type="submit">
                 Save
               </button>
             </div>

@@ -1,10 +1,5 @@
 import { BiDollarCircle, BiMessageSquareDetail } from "react-icons/bi";
-import {
-  BsCalendar,
-  BsCreditCard,
-  BsGear,
-  BsPerson,
-} from "react-icons/bs";
+import { BsCalendar, BsCreditCard, BsGear, BsPerson } from "react-icons/bs";
 import { FaMoneyBill } from "react-icons/fa6";
 import { HiOutlineSave } from "react-icons/hi";
 import { MdPayment } from "react-icons/md";
@@ -12,7 +7,7 @@ import { RxDashboard } from "react-icons/rx";
 
 interface ISection {
   name: string;
-  link: string;  
+  link: string;
   icon: any;
   count?: number;
   badge?: string;
@@ -33,7 +28,7 @@ export const menus: IMenu[] = [
         link: "/dashboard",
         icon: <RxDashboard />,
         count: 0,
-        submenus: []
+        submenus: [],
       },
       {
         name: "MoSave",
@@ -84,7 +79,7 @@ export const menus: IMenu[] = [
       {
         name: "Bill Payments",
         link: "/bill-payments",
-        icon: <MdPayment />,        
+        icon: <MdPayment />,
         badge: "new",
       },
       {
@@ -101,7 +96,7 @@ export const menus: IMenu[] = [
         name: "Profile",
         link: "/profile",
         icon: <BsPerson />,
-        submenus: []
+        submenus: [],
       },
       {
         name: "Settings",
@@ -115,7 +110,7 @@ export const menus: IMenu[] = [
         icon: <BiMessageSquareDetail />,
       },
       {
-        name: "Referral",
+        name: "Referrals",
         link: "/referrals",
         icon: <BiDollarCircle />,
       },
