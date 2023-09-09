@@ -118,7 +118,7 @@ export const data3 = [
     color: "primary",
     href: "/transaction-history",
     icon: (classes: string) => {
-      return <BsFillSave2Fill className={classes} />;
+      return <HiSwitchHorizontal className={classes} />;
     },
   },
   {

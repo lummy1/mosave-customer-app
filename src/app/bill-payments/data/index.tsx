@@ -292,7 +292,7 @@ export default class Data extends Component<IDataProps, IDataState> {
                   Phone Number
                 </label>
                 <input
-                  className="w-full rounded border border-stroke bg-white py-3 px-4.5 text-black focus:border-primary-600 focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary-600"
+                  className="inputClass2"
                   type="number"
                   name="phoneNo"
                   id="phoneNo"

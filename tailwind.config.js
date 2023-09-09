@@ -393,7 +393,15 @@ module.exports = {
     {
       pattern:
         /(bg|text|border)-(red|green|blue|gray|primary|secondary|tertiary|success|customSuccess|customError|warning)-(25|50|100|200|300|400|500|600|700|800)/,
-      variants: ["lg", "bg", "text", "hover", "focus", "lg:hover"],
+      variants: [
+        "lg",
+        "bg",
+        "text",
+        "peer-checked",
+        "hover",
+        "focus",
+        "lg:hover",
+      ],
     },
   ],
   plugins: [
