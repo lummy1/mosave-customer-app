@@ -5,6 +5,7 @@ import { IDateProps } from "./page";
 import { BsCalendarEvent, BsCheckCircleFill } from "react-icons/bs";
 import RadioInputCard from "../components/Cards/RadioInputCard";
 import { sourceOptions } from "./constants";
+import moment from "moment";
 // import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
@@ -20,12 +21,14 @@ type Iparams = {
   startDate: Date | null;
   endDate: Date | null;
   timeline: string;
+  frequency: string;
 };
 
 const Step2 = (props: Props) => {
   const { currentStep, params, handleChange, handleDateChange } = props;
-  const { fundSource, time, startDate, endDate, timeline } = params;
-  const frequencyOptions = ["Monday", "Tuesday", "Wednesday"];
+  const { fundSource, time, startDate, endDate, timeline, frequency } = params;
+  const weekdays = moment.weekdays();
+  const monthdays = Array.apply(null, Array(28)).map((x, i) => i + 1);
 
   if (currentStep !== 2) {
     return null;
@@ -157,33 +160,57 @@ const Step2 = (props: Props) => {
             />
           </div>
         </div>
-        <div className="w-full sm:w-1/2">
-          <div className="relative z-20 bg-white dark:bg-form-input">
-            <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-              <BsCalendarEvent className="w-5 h-5 text-greyIcon" />
-            </span>
-            <select
-              id="frequency"
-              name="frequency"
-              value={timeline}
-              onChange={handleChange}
-              //   onFocus={this.onFocus}
-              //   onBlur={this.onBlur}
-              className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
+        {(frequency === "Weekly" || frequency === "Monthly") && (
+          <div className="w-full sm:w-1/2">
+            <label
+              className="mb-3 block text-sm font-medium text-black dark:text-white"
+              htmlFor="timeline"
             >
-              <option value="">Select Frequency</option>
-              {frequencyOptions &&
-                frequencyOptions.map((p, i) => (
-                  <option key={i} value={p}>
-                    {p}
-                  </option>
-                ))}
-            </select>
+              Day of the {frequency.replaceAll("ly", "")}
+            </label>
+            <div className="relative z-20 bg-white dark:bg-form-input">
+              <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                <BsCalendarEvent className="w-5 h-5 text-greyIcon" />
+              </span>
+              <select
+                id="timeline"
+                name="timeline"
+                value={timeline}
+                onChange={handleChange}
+                //   onFocus={this.onFocus}
+                //   onBlur={this.onBlur}
+                className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
+              >
+                <option value="">
+                  Day of the {frequency.replaceAll("ly", "")}
+                </option>
+                {frequency === "Weekly" && weekdays
+                  ? weekdays.map((t, i) => (
+                      <option key={i} value={t}>
+                        {`Every ${t}s `}
+                      </option>
+                    ))
+                  : monthdays &&
+                    monthdays.map((t, i) => (
+                      <option key={i} value={t}>
+                        {`Every ${
+                          t == 1
+                            ? t + "st"
+                            : t == 2
+                            ? t + "nd"
+                            : t == 3
+                            ? t + "rd"
+                            : t + "th"
+                        } `}
+                      </option>
+                    ))}
+              </select>
+            </div>
+            <small className="form-error">
+              {/* {touched.plan && formErrors.plan} */}
+            </small>
           </div>
-          <small className="form-error">
-            {/* {touched.plan && formErrors.plan} */}
-          </small>
-        </div>
+        )}
       </div>
     </>
   );
