@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { BsCalendarEvent } from "react-icons/bs";
 import { TbCurrencyNaira } from "react-icons/tb";
+import RadioInputBox from "../components/Cards/RadioInputBox";
 
 type Props = {
   currentStep: number;
@@ -16,65 +17,35 @@ type Iparams = {
 const Step1 = (props: Props) => {
   const { currentStep, params, handleChange } = props;
   const { frequency, amount } = params;
-  const frequencyOptions = ["Daily", "weekly", "Monthly"];
+  const frequencyOptions = ["Daily", "Weekly", "Monthly"];
   if (currentStep !== 1) {
     return null;
   }
   return (
     <>
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-        <div className="w-full sm:w-1/2">
+        <div className="w-full">
           <label
             className="mb-3 block text-sm font-medium text-black dark:text-white"
             htmlFor="frequency"
           >
             Payment Frequency
           </label>
-          <div className="relative z-20 bg-white dark:bg-form-input">
-            <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-              <BsCalendarEvent className="w-5 h-5 text-greyIcon" />
-            </span>
-            <select
-              id="frequency"
-              name="frequency"
-              value={frequency}
-              onChange={handleChange}
-              //   onFocus={this.onFocus}
-              //   onBlur={this.onBlur}
-              className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
-            >
-              <option value="">Select Frequency</option>
-              {frequencyOptions &&
-                frequencyOptions.map((p, i) => (
-                  <option key={i} value={p}>
-                    {p}
-                  </option>
-                ))}
-            </select>
-          </div>
+          <ul className="grid w-full gap-6 md:grid-cols-3">
+            {frequencyOptions &&
+              frequencyOptions.map((item: any, i: number) => (
+                <RadioInputBox
+                  key={i}
+                  id={"frequency" + i}
+                  name={"frequency"}
+                  item={item}
+                  value={frequency}
+                  onChange={handleChange}
+                />
+              ))}
+          </ul>
           <small className="form-error">
             {/* {touched.plan && formErrors.plan} */}
-          </small>
-        </div>
-        <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="accountNo"
-          >
-            Recipient Account
-          </label>
-          {/* <input
-            className="inputClass2"
-            type="number"
-            name="accountNo"
-            id="accountNo"
-            value={accountNo}
-            onChange={handleChange}
-            // onFocus={this.onFocus}
-            // onBlur={this.onBlur}
-          /> */}
-          <small className="form-error">
-            {/* {touched.accountNo && formErrors.accountNo} */}
           </small>
         </div>
       </div>

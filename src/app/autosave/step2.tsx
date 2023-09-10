@@ -2,7 +2,9 @@ import React, { ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { IDateProps } from "./page";
-import { BsCheckCircleFill } from "react-icons/bs";
+import { BsCalendarEvent, BsCheckCircleFill } from "react-icons/bs";
+import RadioInputCard from "../components/Cards/RadioInputCard";
+import { sourceOptions } from "./constants";
 // import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
@@ -17,37 +19,13 @@ type Iparams = {
   time: Date | null;
   startDate: Date | null;
   endDate: Date | null;
+  timeline: string;
 };
 
 const Step2 = (props: Props) => {
   const { currentStep, params, handleChange, handleDateChange } = props;
-  const { fundSource, time, startDate, endDate } = params;
-  const sourceOptions = [
-    {
-      value: "Gt bank",
-      label: "Gt bank",
-      text: "0125155202",
-      color: "primary-700",
-      bgColor: "primary-25",
-      borderColor: "primary-600",
-    },
-    {
-      value: "wallet",
-      label: "wallet",
-      text: "₦20,000",
-      color: "secondary-500",
-      bgColor: "secondary-100",
-      borderColor: "secondary-600",
-    },
-    {
-      value: "Bank account",
-      label: "Bank account",
-      text: "Enter bank details",
-      color: "tertiary-500",
-      bgColor: "tertiary-50",
-      borderColor: "tertiary-600",
-    },
-  ];
+  const { fundSource, time, startDate, endDate, timeline } = params;
+  const frequencyOptions = ["Monday", "Tuesday", "Wednesday"];
 
   if (currentStep !== 2) {
     return null;
@@ -60,39 +38,20 @@ const Step2 = (props: Props) => {
             className="mb-3 block text-sm font-medium text-black dark:text-white"
             htmlFor="startsDate"
           >
-            Start Date
+            Set Primary Source of Funds
           </label>
 
-          {/* <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">How much do you expect to use each month?</h3> */}
           <ul className="grid w-full gap-6 md:grid-cols-3">
             {sourceOptions.map((item: any, i: number) => (
               <li key={i}>
-                <input
-                  type="radio"
+                <RadioInputCard
+                  key={i}
+                  item={item}
                   id={"fundSource" + i}
                   name={"fundSource"}
-                  value={item.value}
-                  className="hidden peer"
-                  onChange={handleChange}
+                  value={fundSource}
+                  handleChange={handleChange}
                 />
-                <label
-                  htmlFor={"fundSource" + i}
-                  className={`relative bg-${item.bgColor} text-${item.color} border-${item.bgColor} dark:border-${item.bgColor} dark:peer-checked:text-${item.color} peer-checked:border-${item.borderColor} peer-checked:text-${item.color} inline-flex items-center justify-between w-full p-2 border-2 rounded-lg cursor-pointer hover:text-gray-600 dark:text-gray-400 dark:bg-gray-800`}
-                >
-                  <div
-                    className={`-top-3 -right-3 absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white rounded-full dark:border-gray-900`}
-                  >
-                    <BsCheckCircleFill
-                      className={`text-${item.borderColor} w-3 h-3`}
-                    />
-                  </div>
-                  <div className="mt-10">
-                    <div className="text-sm text-black font-semibold uppercase">
-                      {item.value}
-                    </div>
-                    <div className="text-xs font-bold">{item.text}</div>
-                  </div>
-                </label>
               </li>
             ))}
           </ul>
@@ -197,6 +156,33 @@ const Step2 = (props: Props) => {
               dateFormat="h:mm aa"
             />
           </div>
+        </div>
+        <div className="w-full sm:w-1/2">
+          <div className="relative z-20 bg-white dark:bg-form-input">
+            <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+              <BsCalendarEvent className="w-5 h-5 text-greyIcon" />
+            </span>
+            <select
+              id="frequency"
+              name="frequency"
+              value={timeline}
+              onChange={handleChange}
+              //   onFocus={this.onFocus}
+              //   onBlur={this.onBlur}
+              className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
+            >
+              <option value="">Select Frequency</option>
+              {frequencyOptions &&
+                frequencyOptions.map((p, i) => (
+                  <option key={i} value={p}>
+                    {p}
+                  </option>
+                ))}
+            </select>
+          </div>
+          <small className="form-error">
+            {/* {touched.plan && formErrors.plan} */}
+          </small>
         </div>
       </div>
     </>

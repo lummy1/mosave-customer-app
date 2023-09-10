@@ -22,6 +22,7 @@ interface IParams {
   time: Date | null;
   startDate: Date | null;
   endDate: Date | null;
+  timeline: string;
   [x: string]: string | number | boolean | Date | null;
 }
 
@@ -37,6 +38,7 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
     endDate: null,
     time: null,
     fundSource: "",
+    timeline: "",
   };
   constructor(props: IAutosaveProps) {
     super(props);
