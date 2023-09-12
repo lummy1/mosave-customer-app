@@ -7,6 +7,8 @@ type Props = {
   value: string;
   item: IParams;
   handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleFocus: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleBlur: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 };
 
 interface IParams {
@@ -19,7 +21,8 @@ interface IParams {
 }
 
 const RadioInputCard = (props: Props) => {
-  const { id, name, item, value, handleChange } = props;
+  const { id, name, item, value, handleChange, handleFocus, handleBlur } =
+    props;
   return (
     <>
       <input
@@ -30,6 +33,8 @@ const RadioInputCard = (props: Props) => {
         checked={item.value === value}
         className="hidden peer"
         onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       <label
         htmlFor={id}
@@ -38,7 +43,9 @@ const RadioInputCard = (props: Props) => {
         <div
           className={`-top-3 -right-3 absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white rounded-full dark:border-gray-900`}
         >
-          <BsCheckCircleFill className={`text-${item.borderColor} w-3 h-3`} />
+          {item.value === value && (
+            <BsCheckCircleFill className={`text-${item.borderColor} w-3 h-3`} />
+          )}
         </div>
         <div className="mt-10">
           <div className="text-sm text-black font-semibold uppercase">

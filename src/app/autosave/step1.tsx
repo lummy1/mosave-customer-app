@@ -1,12 +1,17 @@
-import React, { ChangeEvent } from "react";
-import { BsCalendarEvent } from "react-icons/bs";
+import React, { ChangeEvent, FocusEventHandler, useState } from "react";
 import { TbCurrencyNaira } from "react-icons/tb";
 import RadioInputBox from "../components/Cards/RadioInputBox";
+import { IBoolean, IString } from "@/utils/interface";
 
 type Props = {
   currentStep: number;
   params: Iparams;
+  formErrors: IString;
+  touched: IBoolean;
+  disabled: IBoolean;
   handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onFocus: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 type Iparams = {
@@ -15,9 +20,19 @@ type Iparams = {
 };
 
 const Step1 = (props: Props) => {
-  const { currentStep, params, handleChange } = props;
+  const {
+    currentStep,
+    params,
+    formErrors,
+    touched,
+    disabled,
+    handleChange,
+    onFocus,
+    onBlur,
+  } = props;
   const { frequency, amount } = params;
   const frequencyOptions = ["Daily", "Weekly", "Monthly"];
+
   if (currentStep !== 1) {
     return null;
   }
@@ -45,7 +60,7 @@ const Step1 = (props: Props) => {
               ))}
           </ul>
           <small className="form-error">
-            {/* {touched.plan && formErrors.plan} */}
+            {touched.frequency && formErrors.frequency}
           </small>
         </div>
       </div>
@@ -69,11 +84,11 @@ const Step1 = (props: Props) => {
               id="amount"
               value={amount}
               onChange={handleChange}
-              //   onFocus={onFocus}
-              //   onBlur={onBlur}
+              onFocus={onFocus}
+              onBlur={onBlur}
             />
             <small className="form-error">
-              {/* {touched.amount && formErrors.amount} */}
+              {touched.amount && formErrors.amount}
             </small>
           </div>
         </div>

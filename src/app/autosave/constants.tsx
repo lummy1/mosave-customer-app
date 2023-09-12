@@ -8,8 +8,8 @@ export const sourceOptions = [
     borderColor: "primary-600",
   },
   {
-    value: "wallet",
-    label: "wallet",
+    value: "Wallet",
+    label: "Wallet",
     text: "₦20,000",
     color: "secondary-500",
     bgColor: "secondary-100",

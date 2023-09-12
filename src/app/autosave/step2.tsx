@@ -1,18 +1,26 @@
 import React, { ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
-import { IDateProps } from "./page";
+import { IDateFocus, IDateProps } from "./page";
 import { BsCalendarEvent, BsCheckCircleFill } from "react-icons/bs";
 import RadioInputCard from "../components/Cards/RadioInputCard";
 import { sourceOptions } from "./constants";
 import moment from "moment";
+import { IBoolean, IString } from "@/utils/interface";
+import { ordinalNumbers } from "@/utils/functions";
 // import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
   currentStep: number;
   params: Iparams;
+  formErrors: IString;
+  touched: IBoolean;
+  disabled: IBoolean;
   handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   handleDateChange: (value: IDateProps) => void;
+  onFocus: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onDateFocus: (props: IDateFocus) => void;
+  onBlur: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 };
 
 type Iparams = {
@@ -25,7 +33,18 @@ type Iparams = {
 };
 
 const Step2 = (props: Props) => {
-  const { currentStep, params, handleChange, handleDateChange } = props;
+  const {
+    currentStep,
+    params,
+    formErrors,
+    touched,
+    disabled,
+    handleChange,
+    handleDateChange,
+    onFocus,
+    onDateFocus,
+    onBlur,
+  } = props;
   const { fundSource, time, startDate, endDate, timeline, frequency } = params;
   const weekdays = moment.weekdays();
   const monthdays = Array.apply(null, Array(28)).map((x, i) => i + 1);
@@ -54,24 +73,15 @@ const Step2 = (props: Props) => {
                   name={"fundSource"}
                   value={fundSource}
                   handleChange={handleChange}
+                  handleFocus={onFocus}
+                  handleBlur={onBlur}
                 />
               </li>
             ))}
           </ul>
-
-          {/* <input
-            className="inputClass2"
-            type="text"
-            name="fundSowrce"
-            id="fundSource"
-            value={fundSource}
-            onChange={handleChange}
-            // onFocus={this.onFocus}
-            // onBlur={this.onBlur}
-          />
           <small className="form-error">
-           {touched.accountNo && formErrors.accountNo}
-          </small> */}
+            {touched.fundSource && formErrors.fundSource}
+          </small>
         </div>
       </div>
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
@@ -102,7 +112,12 @@ const Step2 = (props: Props) => {
               onChange={(date: Date) =>
                 handleDateChange({ value: date, name: "startDate" })
               }
+              onFocus={(e) => onDateFocus({ e, name: "startDate" })}
+              onBlur={onBlur}
             />
+            <small className="form-error">
+              {touched.startDate && formErrors.startDate}
+            </small>
           </div>
         </div>
         <div className="w-full sm:w-1/2">
@@ -132,7 +147,12 @@ const Step2 = (props: Props) => {
               onChange={(date: Date) =>
                 handleDateChange({ value: date, name: "endDate" })
               }
+              onFocus={(e) => onDateFocus({ e, name: "endDate" })}
+              onBlur={onBlur}
             />
+            <small className="form-error">
+              {touched.endDate && formErrors.endDate}
+            </small>
           </div>
         </div>
       </div>
@@ -157,7 +177,12 @@ const Step2 = (props: Props) => {
               timeIntervals={30}
               timeCaption="Time"
               dateFormat="h:mm aa"
+              onFocus={(e) => onDateFocus({ e, name: "time" })}
+              onBlur={onBlur}
             />
+            <small className="form-error">
+              {touched.time && formErrors.time}
+            </small>
           </div>
         </div>
         {(frequency === "Weekly" || frequency === "Monthly") && (
@@ -177,8 +202,8 @@ const Step2 = (props: Props) => {
                 name="timeline"
                 value={timeline}
                 onChange={handleChange}
-                //   onFocus={this.onFocus}
-                //   onBlur={this.onBlur}
+                onFocus={onFocus}
+                onBlur={onBlur}
                 className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
               >
                 <option value="">
@@ -193,21 +218,13 @@ const Step2 = (props: Props) => {
                   : monthdays &&
                     monthdays.map((t, i) => (
                       <option key={i} value={t}>
-                        {`Every ${
-                          t == 1
-                            ? t + "st"
-                            : t == 2
-                            ? t + "nd"
-                            : t == 3
-                            ? t + "rd"
-                            : t + "th"
-                        } `}
+                        {`Every ${ordinalNumbers(t)} `}
                       </option>
                     ))}
               </select>
             </div>
             <small className="form-error">
-              {/* {touched.plan && formErrors.plan} */}
+              {touched.timeline && formErrors.timeline}
             </small>
           </div>
         )}

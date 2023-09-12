@@ -6,6 +6,14 @@ import RightBar from "../components/Rightbar";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
+import { IBoolean, IString } from "@/utils/interface";
+import {
+  step1ValidationSchema,
+  step2ValidationSchema,
+  step3ValidationSchema,
+} from "./validations";
+import { toast } from "react-toastify";
+import moment from "moment";
 
 export interface IAutosaveProps {}
 
@@ -13,6 +21,9 @@ export interface IAutosaveState {
   mount: boolean;
   currentStep: number;
   params: IParams;
+  formErrors: IString;
+  touched: IBoolean;
+  disabled: IBoolean;
 }
 
 interface IParams {
@@ -30,7 +41,23 @@ export interface IDateProps {
   value: Date;
   name: string;
 }
+
+export interface IDateFocus {
+  e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
+  name: string;
+}
+
 class Autosave extends Component<IAutosaveProps, IAutosaveState> {
+  initialTouched = {
+    amount: false,
+    frequency: false,
+    startDate: false,
+    endDate: false,
+    time: false,
+    fundSource: false,
+    timeline: false,
+  };
+
   initialValues = {
     amount: 0,
     frequency: "",
@@ -40,6 +67,12 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
     fundSource: "",
     timeline: "",
   };
+
+  initialDisabled = {
+    step1: true,
+    step2: true,
+    step3: true,
+  };
   constructor(props: IAutosaveProps) {
     super(props);
 
@@ -47,11 +80,24 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
       mount: false,
       currentStep: 1,
       params: this.initialValues,
+      formErrors: {},
+      touched: this.initialTouched,
+      disabled: this.initialDisabled,
     };
   }
 
   componentDidMount() {
     this.setState({ mount: true });
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<IAutosaveProps>,
+    prevState: Readonly<IAutosaveState>
+  ): void {
+    console.log(this.state.touched);
+    if (prevState.params !== this.state.params) {
+      this.validate();
+    }
   }
 
   handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -66,8 +112,6 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
 
   handeDateChange = (props: IDateProps) => {
     const { name, value } = props;
-    console.log(name);
-    console.log(value);
     this.setState({
       params: {
         ...this.state.params,
@@ -76,9 +120,69 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
     });
   };
 
+  onFocus = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    console.log(e.target);
+    console.log(e.target.name);
+    const { name } = e.target;
+    this.setState({ touched: { ...this.state.touched, [name]: true } });
+  };
+
+  onDateFocus = (props: IDateFocus) => {
+    const { e, name } = props;
+    this.setState({ touched: { ...this.state.touched, [name]: true } });
+  };
+
+  onBlur = () => {
+    this.validate();
+  };
+
+  validate = () => {
+    const step = this.state.currentStep;
+    const validationSchema =
+      step == 1
+        ? step1ValidationSchema
+        : step == 2
+        ? step2ValidationSchema
+        : step3ValidationSchema;
+    const initialFormErrors = {};
+    validationSchema
+      .validate(this.state.params, { abortEarly: false })
+      .then(() => {
+        this.setState({ formErrors: initialFormErrors });
+      })
+      .catch((err: any) => {
+        const errors: IString = initialFormErrors;
+        err.inner.forEach((error: any) => {
+          if (this.state.touched[error.path]) {
+            errors[error.path] = error.message;
+          }
+        });
+        this.setState({ formErrors: errors });
+      });
+
+    validationSchema.isValid(this.state.params).then((valid) =>
+      this.setState({
+        disabled: {
+          ...this.state.disabled,
+          ["step" + this.state.currentStep]: !valid,
+        },
+      })
+    );
+  };
+
   handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(this.state);
+    if (
+      moment(this.state.params.endDate!).isBefore(
+        moment(this.state.params.startDate!)
+      )
+    ) {
+      toast.error("End date must be greater than start date.");
+    } else {
+      console.log(this.state);
+    }
   };
 
   next = () => {
@@ -109,9 +213,21 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
 
   nextButton() {
     let currentStep = this.state.currentStep;
+    const disable = this.state.disabled;
+    let disabled =
+      currentStep == 1
+        ? disable.step1
+        : currentStep == 2
+        ? disable.step2
+        : disable.step3;
     if (currentStep < 3) {
       return (
-        <button className="submitButton" type="button" onClick={this.next}>
+        <button
+          disabled={disabled}
+          className={`${disabled ? "disabled" : ""} submitButton`}
+          type="button"
+          onClick={this.next}
+        >
           Next
         </button>
       );
@@ -152,19 +268,35 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
                       <form action="/" onSubmit={this.handleSubmit}>
                         <Step1
                           currentStep={this.state.currentStep}
-                          handleChange={this.handleChange}
                           params={this.state.params}
+                          formErrors={this.state.formErrors}
+                          touched={this.state.touched}
+                          disabled={this.state.disabled}
+                          handleChange={this.handleChange}
+                          onFocus={this.onFocus}
+                          onBlur={this.onBlur}
                         />
                         <Step2
                           currentStep={this.state.currentStep}
-                          handleChange={this.handleChange}
-                          handleDateChange={this.handeDateChange}
                           params={this.state.params}
+                          formErrors={this.state.formErrors}
+                          touched={this.state.touched}
+                          disabled={this.state.disabled}
+                          handleDateChange={this.handeDateChange}
+                          handleChange={this.handleChange}
+                          onFocus={this.onFocus}
+                          onDateFocus={this.onDateFocus}
+                          onBlur={this.onBlur}
                         />
                         <Step3
                           currentStep={this.state.currentStep}
-                          handleChange={this.handleChange}
                           params={this.state.params}
+                          formErrors={this.state.formErrors}
+                          touched={this.state.touched}
+                          disabled={this.state.disabled}
+                          handleChange={this.handleChange}
+                          onFocus={this.onFocus}
+                          onBlur={this.onBlur}
                         />
 
                         <div className="flex justify-end gap-4.5 mt-5">
