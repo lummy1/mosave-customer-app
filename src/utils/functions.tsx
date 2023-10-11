@@ -33,3 +33,13 @@ export const ordinalNumbers = (number: number) => {
       : number + "th"
   }`;
 };
+
+export const convertToObj = (obj: any, path: any, val: any) => {
+  const keys = path.split(".");
+  const lastKey = keys.pop();
+  const lastObj = keys.reduce(
+    (obj: any, key: any) => (obj[key] = obj[key] || {}),
+    obj
+  );
+  lastObj[lastKey] = val;
+};

@@ -44,9 +44,10 @@ class DashboardPage extends Component<Props, State> {
   }
 
   render() {
+    const { mount } = this.state;
     return (
       <>
-        {this.state.mount && (
+        {mount && (
           <Private2>
             <div className="mb-5">
               <h1 className="my-2 text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
@@ -322,6 +323,9 @@ const mapDispatchToProps = (dispatch: any) => {
     signIn: () => dispatch(fetch()),
   };
 };
-// export default connect(null, mapDispatchToProps)(DashboardPage);
 
-export default DashboardPage;
+const mapStateToProps = (state: any) => ({ auth: state.auth });
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);
+
+//export default DashboardPage;

@@ -15,9 +15,10 @@ const baseUrl = process.env.NEXT_PUBLIC_BASEURL;
 
 const register = async (data: IRegister) => {
   const response = await axios.post(baseUrl + "/customer/register", data);
-  if (response.data) {
-    store(AuthConstants(), response.data.data);
-  }
+  console.log(response.data);
+  // if (response.data) {
+  //   store(AuthConstants(), response.data.data);
+  // }
 
   return response.data;
 };

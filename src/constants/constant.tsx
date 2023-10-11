@@ -66,8 +66,12 @@ export const menus: IMenu[] = [
         count: 0,
         submenus: [
           {
+            name: "Create Event",
+            link: "/events/create",
+          },
+          {
             name: "View tickets",
-            link: "/tickets",
+            link: "/events/view",
           },
           {
             name: "Ticket Records",
@@ -119,5 +123,46 @@ export const menus: IMenu[] = [
         icon: <BiDollarCircle />,
       },
     ],
+  },
+];
+
+export const eventCategories = [
+  "Music",
+  "Music Concerts",
+  "Music Festivals",
+  "Music Carnivals",
+  "Exhibitions",
+  "Food exhibitions",
+  "Product exhibitions",
+  "Career exhibitions",
+  "Conventions",
+  "Parties & Nightlife",
+  "Virtual Events",
+  "Sporting Events",
+  "Conferences",
+  "Free Events",
+  "Comedy",
+  "Fashion Shows",
+  "Art & Crafts",
+];
+
+export const currencies = [
+  { name: "NGN", value: "₦" },
+  { name: "USD", value: "$" },
+  { name: "PDS", value: "£" },
+  { name: "EUR", value: "€" },
+];
+
+export const discountModes = { name: "percent", value: "%" };
+
+export const eventTypes = [
+  {
+    value: "physical",
+    label: "An event where people meet physically at a particular location",
+  },
+  {
+    value: "Online",
+    label:
+      "An event that is hosted on a online platform such as zoom, google meet",
   },
 ];

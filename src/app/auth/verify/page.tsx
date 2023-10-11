@@ -154,7 +154,7 @@ class VerifyEmailPage extends Component<Props, IState> {
     const { disabled, date, otp, numInputs, mount } = this.state;
     return (
       <>
-        {this.state.mount && (
+        {mount && (
           <Public>
             <h2 className="mb-1 text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Verify your email
@@ -235,7 +235,7 @@ class VerifyEmailPage extends Component<Props, IState> {
                 disabled={disabled}
                 className={`${
                   isLoading || disabled ? "disabled" : " "
-                } w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}
+                } authSubmitButton`}
               >
                 <ButtonLoader
                   isLoading={isLoading}

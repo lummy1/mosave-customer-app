@@ -6,7 +6,7 @@ import RightBar from "../components/Rightbar";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
-import { IBoolean, IString } from "@/utils/interface";
+import { IBoolean, IDateFocus, IDateProps, IString } from "@/utils/interface";
 import {
   step1ValidationSchema,
   step2ValidationSchema,
@@ -15,9 +15,9 @@ import {
 import { toast } from "react-toastify";
 import moment from "moment";
 
-export interface IAutosaveProps {}
+interface IAutosaveProps {}
 
-export interface IAutosaveState {
+interface IAutosaveState {
   mount: boolean;
   currentStep: number;
   params: IParams;
@@ -35,16 +35,6 @@ interface IParams {
   endDate: Date | null;
   timeline: string;
   [x: string]: string | number | boolean | Date | null;
-}
-
-export interface IDateProps {
-  value: Date;
-  name: string;
-}
-
-export interface IDateFocus {
-  e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
-  name: string;
 }
 
 class Autosave extends Component<IAutosaveProps, IAutosaveState> {
@@ -94,7 +84,6 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
     prevProps: Readonly<IAutosaveProps>,
     prevState: Readonly<IAutosaveState>
   ): void {
-    console.log(this.state.touched);
     if (prevState.params !== this.state.params) {
       this.validate();
     }
@@ -123,8 +112,6 @@ class Autosave extends Component<IAutosaveProps, IAutosaveState> {
   onFocus = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    console.log(e.target);
-    console.log(e.target.name);
     const { name } = e.target;
     this.setState({ touched: { ...this.state.touched, [name]: true } });
   };

@@ -167,10 +167,7 @@ class Airtime extends Component<IAirtimeProps, IState> {
             <form action="/" onSubmit={this.submit}>
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full sm:w-1/2">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="network"
-                  >
+                  <label className="inputLabelClass" htmlFor="network">
                     Service Provider
                   </label>
                   <div className="relative z-20 bg-white dark:bg-form-input">
@@ -209,10 +206,7 @@ class Airtime extends Component<IAirtimeProps, IState> {
                   </div>
                 </div>
                 <div className="w-full sm:w-1/2">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="phoneNo"
-                  >
+                  <label className="inputLabelClass" htmlFor="phoneNo">
                     Recipient Phone Number
                   </label>
                   <input
@@ -233,10 +227,7 @@ class Airtime extends Component<IAirtimeProps, IState> {
 
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <div className="w-full sm:w-1/2">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="amount"
-                  >
+                  <label className="inputLabelClass" htmlFor="amount">
                     Amount
                   </label>
                   <div className="relative">

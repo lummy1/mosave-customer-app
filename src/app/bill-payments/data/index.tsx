@@ -246,10 +246,7 @@ export default class Data extends Component<IDataProps, IDataState> {
           <form action="/" onSubmit={this.submit}>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label
-                  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="networkData"
-                >
+                <label className="inputLabelClass" htmlFor="networkData">
                   Service Network
                 </label>
                 <div className="relative z-20 bg-white dark:bg-form-input">
@@ -285,10 +282,7 @@ export default class Data extends Component<IDataProps, IDataState> {
                 </div>
               </div>
               <div className="w-full sm:w-1/2">
-                <label
-                  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="phoneNo"
-                >
+                <label className="inputLabelClass" htmlFor="phoneNo">
                   Phone Number
                 </label>
                 <input
@@ -309,10 +303,7 @@ export default class Data extends Component<IDataProps, IDataState> {
 
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full">
-                <label
-                  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="plan"
-                >
+                <label className="inputLabelClass" htmlFor="plan">
                   Choose Plan
                 </label>
                 <ul className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-3 gap-2">

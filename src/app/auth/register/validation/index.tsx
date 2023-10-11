@@ -23,7 +23,7 @@ export const validationSchema = yup.object({
     .min(5, "Email must be more than 5 characters")
     .max(30, "Email is Maximum of 30 characters")
     .required("Email is required."),
-  phone: yup
+  phoneno: yup
     .string()
     .trim()
     .matches(
@@ -43,19 +43,19 @@ export const validationSchema = yup.object({
   password: yup
     .string()
     .required("Please specify your password")
-    .min(8, "The password should have at least minimum length of 8")
+    .min(8, "Must have at least minimum length of 8")
     .max(16, "Characters can not be more than 16")
     .matches(/^\S*$/, "Whitespace is not allowed")
-    .matches(/[a-z]+/, "Must contain at least one lowercase character")
-    .matches(/[A-Z]+/, "Must contain at least one uppercase character")
+    .matches(/[a-z]+/, "Must have at least one lowercase character")
+    .matches(/[A-Z]+/, "Must have at least one uppercase character")
     .matches(
       /[!#@$%^&*)(+=}{/:;><?'"|`~._-]/,
-      "Must contain at least one special character"
+      "Must have at least one special character"
     )
-    .matches(/\d+/, "Must contain at least one number"),
+    .matches(/\d+/, "Must have at least one number"),
   confirmPassword: yup
     .string()
-    .min(8, "The password should have at least minimum length of 8")
+    .min(8, "Must have at least minimum length of 8")
     .required("Please confirm your password")
     .oneOf([yup.ref("password")], "Passwords does not match"),
   terms: yup.bool().oneOf([true], "You must accept the terms and conditions"),

@@ -211,7 +211,7 @@ class Utilities extends Component<Props, IState> {
                             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                               <div className="w-full sm:w-1/2">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="provider"
                                 >
                                   Service Provider
@@ -253,7 +253,7 @@ class Utilities extends Component<Props, IState> {
                               </div>
                               <div className="w-full sm:w-1/2">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="accountNo"
                                 >
                                   Account/Meter Number
@@ -277,7 +277,7 @@ class Utilities extends Component<Props, IState> {
                             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                               <div className="w-full sm:w-1/2">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="amount"
                                 >
                                   Amount

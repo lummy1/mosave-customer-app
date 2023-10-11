@@ -52,7 +52,7 @@ const Login = () => {
     e: FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    const userData = { email, password };
+    const userData = { identity: email, email, password };
     console.log(userData);
     dispatch(login(userData));
   };
@@ -62,9 +62,11 @@ const Login = () => {
       toast.error(message);
     }
     if (isSuccess || user) {
+      //isSuccess ||
       toast.success(message);
+      console.log(user);
       //navigate('/dashboard', { state: { from: location?.pathname }, replace: true });
-      redirect("/dashboard"); // or router.push("/dashboard");
+      router.push("/dashboard"); //redirect("/dashboard"); // or router.push("/dashboard");
     }
     dispatch(reset());
   }, [user, isError, isSuccess, message, dispatch]);
@@ -77,7 +79,6 @@ const Login = () => {
         setFormErrors(initialValue);
       })
       .catch((err: any) => {
-        console.log(initialValue);
         const errors: ILogin = initialValue;
         err.inner.forEach((error: any) => {
           if (touched[error.path]) errors[error.path] = error.message;
@@ -194,7 +195,7 @@ const Login = () => {
               disabled={disabled}
               className={`${
                 isLoading || disabled ? "disabled" : " "
-              } w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}
+              } authSubmitButton`}
             >
               <ButtonLoader
                 isLoading={isLoading}

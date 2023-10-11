@@ -1,12 +1,11 @@
 import React, { ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
-import { IDateFocus, IDateProps } from "./page";
 import { BsCalendarEvent, BsCheckCircleFill } from "react-icons/bs";
 import RadioInputCard from "../components/Cards/RadioInputCard";
 import { sourceOptions } from "./constants";
 import moment from "moment";
-import { IBoolean, IString } from "@/utils/interface";
+import { IBoolean, IDateFocus, IDateProps, IString } from "@/utils/interface";
 import { ordinalNumbers } from "@/utils/functions";
 // import "react-datepicker/dist/react-datepicker.css";
 
@@ -56,10 +55,7 @@ const Step2 = (props: Props) => {
     <>
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <div className="w-full">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="startsDate"
-          >
+          <label className="inputLabelClass" htmlFor="startsDate">
             Set Primary Source of Funds
           </label>
 
@@ -87,10 +83,7 @@ const Step2 = (props: Props) => {
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <div className="w-full sm:w-1/2">
           <div className="relative">
-            <label
-              className="mb-3 block text-sm font-medium text-black dark:text-white"
-              htmlFor="startDate"
-            >
+            <label className="inputLabelClass" htmlFor="startDate">
               Start Date
             </label>
             <DatePicker
@@ -122,10 +115,7 @@ const Step2 = (props: Props) => {
         </div>
         <div className="w-full sm:w-1/2">
           <div className="relative">
-            <label
-              className="mb-3 block text-sm font-medium text-black dark:text-white"
-              htmlFor="endDate"
-            >
+            <label className="inputLabelClass" htmlFor="endDate">
               End Date
             </label>
             <DatePicker
@@ -159,10 +149,7 @@ const Step2 = (props: Props) => {
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <div className="w-full sm:w-1/2">
           <div className="relative">
-            <label
-              className="mb-3 block text-sm font-medium text-black dark:text-white"
-              htmlFor="time"
-            >
+            <label className="inputLabelClass" htmlFor="time">
               Preferred Time
             </label>
             <DatePicker
@@ -187,10 +174,7 @@ const Step2 = (props: Props) => {
         </div>
         {(frequency === "Weekly" || frequency === "Monthly") && (
           <div className="w-full sm:w-1/2">
-            <label
-              className="mb-3 block text-sm font-medium text-black dark:text-white"
-              htmlFor="timeline"
-            >
+            <label className="inputLabelClass" htmlFor="timeline">
               Day of the {frequency.replaceAll("ly", "")}
             </label>
             <div className="relative z-20 bg-white dark:bg-form-input">
@@ -204,7 +188,7 @@ const Step2 = (props: Props) => {
                 onChange={handleChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
-                className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
+                className="selectClass"
               >
                 <option value="">
                   Day of the {frequency.replaceAll("ly", "")}

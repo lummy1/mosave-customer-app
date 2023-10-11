@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 import { strengthColor, strengthIndicator } from "@/utils/password-strength";
 import {
   IBoolean,
-  IPasswordType,
   IPasswordValidation,
   IResetPassword,
   IString,
@@ -34,7 +33,7 @@ const ResetPassword = () => {
     bgColor: "",
     percent: 0,
   });
-  const [type, setType] = useState<IPasswordType>({
+  const [type, setType] = useState<IString>({
     type1: "password",
     type2: "password",
   });
@@ -200,7 +199,7 @@ const ResetPassword = () => {
           disabled={disabled}
           className={`${
             isLoading || disabled ? "disabled" : " "
-          } w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}
+          } authSubmitButton`}
         >
           <ButtonLoader
             isLoading={isLoading}

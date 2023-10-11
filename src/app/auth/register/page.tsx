@@ -11,8 +11,7 @@ import React, {
   useState,
 } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { validationSchema } from "@/validations/registerValidation";
-import { IBoolean, IPasswordType, IRegister } from "@/utils/interface";
+import { IBoolean, IRegister, IString } from "@/utils/interface";
 import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 import { AppDispatch, useAppSelector } from "@/redux/store/store";
 import { redirect } from "next/navigation";
@@ -22,20 +21,21 @@ import { toast } from "react-toastify";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { E164Number } from "libphonenumber-js";
+import { validationSchema } from "./validation";
 
 const Register = () => {
   const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    phoneno: "",
     password: "",
     confirmPassword: "",
     terms: false,
   };
   const [formData, setFormData] = useState<IRegister>(initialValues);
   const [errors, setErrors] = useState<IRegister>(initialValues);
-  const [type, setType] = useState<IPasswordType>({
+  const [type, setType] = useState<IString>({
     type1: "password",
     type2: "password",
   });
@@ -49,7 +49,7 @@ const Register = () => {
     firstName: false,
     lastName: false,
     email: false,
-    phone: false,
+    phoneno: false,
     password: false,
     confirmPassword: false,
     terms: false,
@@ -59,7 +59,7 @@ const Register = () => {
     firstName,
     lastName,
     email,
-    phone,
+    phoneno,
     password,
     confirmPassword,
     terms,
@@ -93,10 +93,9 @@ const Register = () => {
   };
 
   const handleChange = (value: E164Number) => {
-    console.log(value);
     setFormData((prevState) => ({
       ...prevState,
-      phone: value,
+      phoneno: value,
     }));
   };
 
@@ -120,10 +119,12 @@ const Register = () => {
       toast.error("Password does not match");
     } else {
       const userData = {
+        firstname: firstName,
+        lastname: lastName,
         firstName,
         lastName,
         email,
-        phone,
+        phoneno,
         password,
         confirmPassword,
         terms,
@@ -247,23 +248,23 @@ const Register = () => {
 
           <div className="w-full">
             <label
-              htmlFor="phone"
+              htmlFor="phoneno"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Phone Number
             </label>
             <PhoneInput
               defaultCountry="NG"
-              name="phone"
+              name="phoneno"
               autoComplete="off"
-              id="phone"
+              id="phoneno"
               onFocus={onFocus}
-              value={phone}
+              value={phoneno}
               onChange={handleChange}
             />
-            {/* <input type="text" name="phone" autoComplete='off' id="phone" onFocus={onFocus} value={phone} onChange={onChange} onBlur={onBlur} className="inputClass" /> */}
+            {/* <input type="text" name="phoneno" autoComplete='off' id="phoneno" onFocus={onFocus} value={phoneno} onChange={onChange} onBlur={onBlur} className="inputClass" /> */}
             <small className="form-error">
-              {touched.phone && errors.phone}
+              {touched.phoneno && errors.phoneno}
             </small>
           </div>
           <div className="">
@@ -387,7 +388,7 @@ const Register = () => {
             disabled={disabled}
             className={`${
               isLoading || disabled ? "disabled" : " "
-            } sm:col-span-2 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}
+            } sm:col-span-2 authSubmitButton`}
           >
             <ButtonLoader
               isLoading={isLoading}

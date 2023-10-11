@@ -201,7 +201,7 @@ class WithdrawalPage extends Component<Props, State> {
                             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                               <div className="w-full sm:w-1/2">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="plan"
                                 >
                                   Savings Plan
@@ -217,7 +217,7 @@ class WithdrawalPage extends Component<Props, State> {
                                     onChange={this.onChange}
                                     onFocus={this.onFocus}
                                     onBlur={this.onBlur}
-                                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
+                                    className="selectClass"
                                   >
                                     <option value="">Select Plan</option>
                                     {this.subscribedPlans &&
@@ -234,7 +234,7 @@ class WithdrawalPage extends Component<Props, State> {
                               </div>
                               <div className="w-full sm:w-1/2">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="accountNo"
                                 >
                                   Recipient Account
@@ -258,7 +258,7 @@ class WithdrawalPage extends Component<Props, State> {
                             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                               <div className="w-full sm:w-1/2">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="amount"
                                 >
                                   Amount
@@ -288,7 +288,7 @@ class WithdrawalPage extends Component<Props, State> {
                               </div>
                               <div className="w-full sm:w-1/2">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="reason"
                                 >
                                   Reason
@@ -302,7 +302,7 @@ class WithdrawalPage extends Component<Props, State> {
                                     name="reason"
                                     value={reason}
                                     onChange={this.onChange}
-                                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary-600 active:border-primary-600 dark:border-form-strokedark dark:bg-form-input"
+                                    className="selectClass"
                                   >
                                     <option value="">Select Reason</option>
                                     {this.reasons &&
@@ -322,7 +322,7 @@ class WithdrawalPage extends Component<Props, State> {
                             {this.state.params.reason === "Others" && (
                               <div className="mb-5.5">
                                 <label
-                                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                  className="inputLabelClass"
                                   htmlFor="otherReason"
                                 >
                                   Reason

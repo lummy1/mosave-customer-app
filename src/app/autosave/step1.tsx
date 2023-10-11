@@ -40,10 +40,7 @@ const Step1 = (props: Props) => {
     <>
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <div className="w-full">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="frequency"
-          >
+          <label className="inputLabelClass" htmlFor="frequency">
             Payment Frequency
           </label>
           <ul className="grid w-full gap-6 md:grid-cols-3">
@@ -67,10 +64,7 @@ const Step1 = (props: Props) => {
 
       <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <div className="w-full sm:w-1/2">
-          <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
-            htmlFor="amount"
-          >
+          <label className="inputLabelClass" htmlFor="amount">
             Preferred Amount you want to save
           </label>
           <div className="relative">

@@ -90,11 +90,11 @@ const Step3 = (props: Props) => {
           {data.map((item, i) => (
             <Fragment key={i}>
               {item.key != undefined && (
-                <div className="flex py-2">
-                  <dt className="sm:w-1/2 mr-2 text-right text-gray-500 md:text-lg dark:text-gray-400">
+                <div className="flex py-1">
+                  <dt className="sm:w-1/2 mr-2 text-right text-gray-500 md:text-base dark:text-gray-400">
                     {item?.key + ":"}
                   </dt>
-                  <dd className="text-lg font-semibold">{item?.value}</dd>
+                  <dd className="text-base font-semibold">{item?.value}</dd>
                 </div>
               )}
             </Fragment>
