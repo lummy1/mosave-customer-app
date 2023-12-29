@@ -1,12 +1,13 @@
-import * as React from "react";
+"use client";
 import Private2 from "../components/Layouts/Private2";
 import Breadcrumb from "../components/Breadcrumbs";
+import { Component } from "react";
 
 export interface IReferralsProps {}
 
 export interface IReferralsState {}
 
-class Referrals extends React.Component<IReferralsProps, IReferralsState> {
+class Referrals extends Component<IReferralsProps, IReferralsState> {
   constructor(props: IReferralsProps) {
     super(props);
 

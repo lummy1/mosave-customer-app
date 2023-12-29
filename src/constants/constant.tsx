@@ -157,7 +157,7 @@ export const discountModes = { name: "percent", value: "%" };
 
 export const eventTypes = [
   {
-    value: "physical",
+    value: "Physical",
     label: "An event where people meet physically at a particular location",
   },
   {
@@ -166,3 +166,21 @@ export const eventTypes = [
       "An event that is hosted on a online platform such as zoom, google meet",
   },
 ];
+
+export const onlinePlatforms = [
+  { label: "Google Meet", value: "Google Meet" },
+  { label: "Zoom", value: "Zoom" },
+  { label: "Teams", value: "Teams" },
+  { label: "Skype", value: "Skype" },
+  { label: "WhatsApp", value: "WhatsApp" },
+  { label: "Webex", value: "Webex" },
+  { label: "Others", value: "Others" },
+];
+
+export const eventTags = [
+  { label: "Event", value: "Event" },
+  { label: "Free", value: "Free" },
+  { label: "Online", value: "Online" },
+];
+
+export const eventMode = ["Paid", "Free"];

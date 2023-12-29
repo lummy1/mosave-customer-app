@@ -1,15 +1,37 @@
+"use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store/store";
+import { useRouter } from "next/navigation";
+import { logout, reset } from "@/redux/features/auth/authSlice";
+import { css } from "@emotion/react";
+import { BeatLoader } from "react-spinners"; // Import the loader you want to use
+import { IUser } from "@/utils/Interface";
 
-const DropdownUser = () => {
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
+type Props = {
+  dispatch: AppDispatch;
+  logoutUser: () => void;
+  user: IUser | null;
+};
+
+const DropdownUser = (props: Props) => {
+  const { dispatch, logoutUser, user } = props;
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
+  //const dispatch = useDispatch<AppDispatch>();
 
   // close on click outside
   useEffect(() => {
+    //console.log(user);
     const clickHandler = ({ target }: MouseEvent) => {
       if (!dropdown.current) return;
       if (
@@ -34,6 +56,22 @@ const DropdownUser = () => {
     return () => document.removeEventListener("keydown", keyHandler);
   });
 
+  if (user === undefined) {
+    // Loading spinner while user authentication status is being checked
+    return (
+      <div className="flex items-center justify-center h-16">
+        <BeatLoader
+          color="#4F46E5"
+          loading
+          cssOverride={override as any}
+          size={15}
+        />
+      </div>
+    );
+  }
+
+  const { firstName, lastName, serialNo } = (user as IUser) || null;
+
   return (
     <div className="relative">
       <Link
@@ -44,9 +82,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            John Adepoju
+            {`${firstName} ${lastName}`}
           </span>
-          <span className="block text-xs">1540000123</span>
+          <span className="block text-xs">{serialNo}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -129,7 +167,7 @@ const DropdownUser = () => {
                   fill=""
                 />
               </svg>
-              My Contacts
+              Security
             </Link>
           </li>
           <li>
@@ -158,7 +196,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary-600lg:text-base">
+        <button
+          className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary-600lg:text-base"
+          onClick={logoutUser}
+        >
           <svg
             className="fill-current"
             width="22"

@@ -3,9 +3,11 @@ import Breadcrumb from "@/app/components/Breadcrumbs";
 import Private2 from "@/app/components/Layouts/Private2";
 import {
   IBooleanDate,
+  ICustomSelect,
   IDateFocus,
   IDateProps,
   IEventDate,
+  IReactSelect,
   ISocials,
   IStepFormState,
   IString,
@@ -13,7 +15,7 @@ import {
   ITicketBoolean,
   ITouchedBoolean,
   IValidationResult,
-} from "@/utils/interface";
+} from "@/utils/Interface";
 import moment from "moment";
 import React, { ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";
@@ -22,15 +24,25 @@ import {
   step2ValidationSchema,
   step3ValidationSchema,
   step4ValidationSchema,
+  step5ValidationSchema,
 } from "./validations";
 import RightBar from "@/app/components/Rightbar";
 import Step1 from "./steps/step1";
 import Step2 from "./steps/step2";
 import Step3 from "./steps/step3";
-import { convertToObj } from "@/utils/functions";
+import { convertToObj, setNestedProperty } from "@/utils/Functions";
 import { Schema } from "yup";
-import { IOnlineEvent, IPhysicalEvent } from "@/utils/types";
+import {
+  IAccountDetails,
+  IBankDetails,
+  IFreeEvent,
+  IOnlineEvent,
+  IPaidEvent,
+  IPhysicalEvent,
+  ISelect,
+} from "@/utils/Types";
 import Step4 from "./steps/step4";
+import Step5 from "./steps/step5";
 
 export interface ICreateEventProps {}
 
@@ -41,15 +53,24 @@ export interface ICreateEventState extends IStepFormState {
 
 type IParams = {
   title: string;
-  tags: string[];
+  tags: any[];
   description: string;
   category: string;
   start: IEventDate;
   end: IEventDate;
   socials: ISocials;
   ticket: ITicket[];
-  [key: string]: string | string[] | IEventDate | ISocials | ITicket[];
-} & (IPhysicalEvent | IOnlineEvent);
+  banner: string[];
+  [key: string]:
+    | string
+    | string[]
+    | IEventDate
+    | ISocials
+    | IString
+    | IBankDetails
+    | ITicket[];
+} & (IPhysicalEvent | IOnlineEvent) &
+  (IPaidEvent | IFreeEvent);
 
 const initialDate = { date: null, time: null };
 const InitialSocials = { website: "", facebook: "", twitter: "" };
@@ -60,6 +81,10 @@ const initialTicket = {
   discount: 0,
   discountMode: "percent",
   currency: "NGN",
+};
+const initialBankDetails = {
+  details: { value: "", label: "", code: "" },
+  account: { account_number: "", account_name: "", bank_id: "" },
 };
 const initialTicketBoolean = {
   name: false,
@@ -83,8 +108,16 @@ class CreateEvent extends React.Component<
     category: false,
     type: false,
     tags: false,
+    venue: false,
+    country: false,
+    state: false,
+    link: false,
+    mode: false,
+    platform: false,
     start: { date: false, time: false },
     end: { date: false, time: false },
+    bank: { details: false, account: false },
+    banner: [false],
     ticket: this.initialTicketBoolean,
   };
 
@@ -93,14 +126,17 @@ class CreateEvent extends React.Component<
     description: "",
     category: "",
     venue: "",
-    type: "physical",
-    country: "",
+    type: "Physical",
+    country: { value: "Nigeria", label: "ng" },
     state: "",
     tags: [],
+    mode: "Paid",
+    bank: initialBankDetails,
     start: initialDate,
     end: initialDate,
     socials: InitialSocials,
     ticket: this.initialTicket,
+    banner: [""],
   };
 
   totalSteps = 5;
@@ -135,20 +171,54 @@ class CreateEvent extends React.Component<
     prevState: Readonly<ICreateEventState>
   ): void {
     if (prevState.params !== this.state.params) {
-      this.validate();
+      this.validateForm();
+    }
+    // since our country is changing, then state must be empty string
+    if (prevState.params.country !== this.state.params.country) {
+      this.customSetState("state", "");
+    }
+
+    const prevBank = prevState.params?.bank as IBankDetails;
+    const currentBank = this.state.params?.bank as IBankDetails;
+
+    // Extract the code property
+    const prevDetails =
+      typeof prevBank === "object" ? prevBank.details : undefined;
+    const currentDetails =
+      typeof currentBank === "object" ? currentBank.details : undefined;
+
+    if (prevDetails !== currentDetails) {
+      console.log(currentDetails);
+      this.handleObjectSelectChange({
+        name: "bank",
+        value: "",
+        type: "account",
+      });
     }
   }
+
+  customSetState = (name: string, value: string) => {
+    const { params } = this.state;
+    this.setState({
+      params: {
+        ...params,
+        [name]: value,
+      },
+    });
+  };
 
   handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    this.setState({
-      params: {
-        ...this.state.params,
-        [name]: value,
-      },
-    });
+    this.customSetState(name, value);
+  };
+
+  handleSelectChange = (props: ICustomSelect) => {
+    const { name, value } = props;
+    console.log(value);
+    this.customSetState(name, value);
+    console.log(this.state.params);
   };
 
   handleDateChange = (props: IDateProps) => {
@@ -159,6 +229,25 @@ class CreateEvent extends React.Component<
         [name]: { ...(this.state.params[name] as {}), [type!]: value },
       },
     });
+  };
+
+  handleObjectSelectChange = (props: IString) => {
+    const { name, type, value } = props;
+    console.log(name);
+    this.setState({
+      params: {
+        ...this.state.params,
+        [name]: { ...(this.state.params[name] as {}), [type!]: value },
+      },
+    });
+  };
+
+  handleArrayChange = (props: { name: string; value: IReactSelect[] }) => {
+    const { name, value } = props;
+    console.log(value);
+    const { params } = this.state;
+    const newValues = value.map((option) => option.value);
+    this.setState({ params: { ...params, [name]: newValues } });
   };
 
   onFocus1 = (
@@ -211,8 +300,18 @@ class CreateEvent extends React.Component<
     });
   };
 
+  onSelectFocus = (name: string) => {
+    this.setState((prevState) => {
+      // Using a shallow copy to avoid mutating the state directly
+      const updatedTouched: ITouchedBoolean = { ...prevState.touched };
+      console.log(updatedTouched);
+      updatedTouched[name] = true;
+      return { touched: updatedTouched };
+    });
+  };
+
   onBlur = () => {
-    this.validate();
+    this.validateForm();
   };
 
   // validateForm0 = async (values: any) => {
@@ -274,6 +373,7 @@ class CreateEvent extends React.Component<
       2: step2ValidationSchema,
       3: step3ValidationSchema,
       4: step4ValidationSchema,
+      5: step5ValidationSchema,
     };
     const validationSchema =
       validationSchemas[currentStep as keyof typeof validationSchemas] ||
@@ -288,7 +388,7 @@ class CreateEvent extends React.Component<
       .catch((err: any) => {
         const errors: { [key: string]: string | object } = initialFormErrors;
         err?.inner.forEach((error: ITouchedBoolean | any) => {
-          if (currentStep == 2) {
+          if (currentStep == 2 || currentStep == 5) {
             const obj = error.path.split(".");
             const type = obj[0];
             const name = obj[1];
@@ -296,8 +396,8 @@ class CreateEvent extends React.Component<
             const objectError = touched?.[type as keyof ITouchedBoolean]?.[
               name as keyof ITouchedBoolean
             ] as keyof ITouchedBoolean;
-            const typeKey = type;
-            const nameKey = name;
+            // const typeKey = type;
+            // const nameKey = name;
             // const objectError = this.state.touched?.[typeKey]?.[
             //   nameKey
             // ] as keyof ITouchedBoolean;
@@ -342,7 +442,6 @@ class CreateEvent extends React.Component<
             );
             errors.ticket = validationErrors;
             console.log(errors);
-            console.log(errors.ticket);
           } else {
             if (touched[error.path as keyof ITouchedBoolean]) {
               errors[error.path] = error.message;
@@ -350,9 +449,46 @@ class CreateEvent extends React.Component<
           }
         });
         console.log(errors);
-        console.log(errors.ticket);
         this.setState({ formErrors: errors });
       });
+
+    validationSchema.isValid(params).then((valid) =>
+      this.setState({
+        disabled: {
+          ...disabled,
+          ["step" + currentStep]: !valid,
+        },
+      })
+    );
+  };
+
+  validateForm = async () => {
+    const { currentStep, params, touched, disabled, formErrors } = this.state;
+    const validationSchemas = {
+      1: step1ValidationSchema,
+      2: step2ValidationSchema,
+      3: step3ValidationSchema,
+      4: step4ValidationSchema,
+      5: step5ValidationSchema,
+    };
+    const validationSchema =
+      validationSchemas[currentStep as keyof typeof validationSchemas] ||
+      step1ValidationSchema;
+
+    try {
+      await validationSchema.validate(params, { abortEarly: false });
+      // If validation succeeds, clear form errors
+      this.setState({ formErrors: {} });
+    } catch (errors: any) {
+      const formErrors = {};
+      errors.inner.forEach((error: any) => {
+        // Flatten the error messages to match the structure of the state
+        setNestedProperty(formErrors, error.path, error.message);
+      });
+      // Update the state with the form errors
+      this.setState({ formErrors });
+      // Validation failed
+    }
 
     validationSchema.isValid(params).then((valid) =>
       this.setState({
@@ -397,7 +533,7 @@ class CreateEvent extends React.Component<
     if (currentStep !== 1) {
       return (
         <button className="cancelButton" type="button" onClick={this.prev}>
-          Previous {currentStep}
+          Previous
         </button>
       );
     }
@@ -415,7 +551,7 @@ class CreateEvent extends React.Component<
           type="button"
           onClick={this.next}
         >
-          Next {currentStep}
+          Next
         </button>
       );
     }
@@ -571,6 +707,7 @@ class CreateEvent extends React.Component<
                             touched={this.state.touched}
                             disabled={this.state.disabled}
                             handleChange={this.handleChange}
+                            onMultiSelectChange={this.handleArrayChange}
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
                           />
@@ -581,6 +718,7 @@ class CreateEvent extends React.Component<
                             touched={this.state.touched}
                             disabled={this.state.disabled}
                             handleDateChange={this.handleDateChange}
+                            handleBannerChange={this.handleArrayChange}
                             onDateFocus={this.onDateFocus}
                             handleChange={this.handleChange}
                             onFocus={this.onFocus}
@@ -607,6 +745,22 @@ class CreateEvent extends React.Component<
                             touched={this.state.touched}
                             disabled={this.state.disabled}
                             handleChange={this.handleChange}
+                            handleSelectChange={this.handleSelectChange}
+                            onSelectFocus={this.onSelectFocus}
+                            onFocus={this.onFocus}
+                            onBlur={this.onBlur}
+                          />
+                          <Step5
+                            currentStep={this.state.currentStep}
+                            params={this.state.params}
+                            formErrors={this.state.formErrors}
+                            touched={this.state.touched}
+                            disabled={this.state.disabled}
+                            handleChange={this.handleChange}
+                            handleObjectSelectChange={
+                              this.handleObjectSelectChange
+                            }
+                            onSelectFocus={this.onSelectFocus}
                             onFocus={this.onFocus}
                             onBlur={this.onBlur}
                           />

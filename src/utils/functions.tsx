@@ -43,3 +43,24 @@ export const convertToObj = (obj: any, path: any, val: any) => {
   );
   lastObj[lastKey] = val;
 };
+
+// Define a custom function to set nested properties
+export const setNestedProperty = (
+  object: Record<string, any>,
+  path: string,
+  value: any
+) => {
+  const keys = path.split(".");
+  let currentObject = object;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+
+    if (!currentObject[key]) {
+      currentObject[key] = {};
+    }
+    currentObject = currentObject[key];
+  }
+
+  currentObject[keys[keys.length - 1]] = value;
+};

@@ -164,8 +164,8 @@ export const trans = [
 export const callToAction = [
   {
     title: "Manage your budget",
-    text: "Lorem ipsum dolor sit amet consectetur. Egestas nunc sed sit sed.",
-    button: "Manage your budget",
+    text: "Create a budget for your new car and save ahead for it.",
+    button: "Create budget",
     href: "/",
     color: "secondary-400",
   },

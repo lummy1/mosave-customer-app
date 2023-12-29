@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { get, removeItem, store } from "../../../utils/storage";
+import { get, removeItem, store } from "../../../utils/Storage";
 import { Dropdown, Tooltip } from "flowbite-react";
 import { BsBrightnessHigh, BsMoon, BsMoonStars } from "react-icons/bs";
 

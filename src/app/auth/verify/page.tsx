@@ -7,47 +7,50 @@ import React, {
 } from "react";
 import OtpInput from "react-otp-input";
 import Countdown, { zeroPad, CountdownApi } from "react-countdown";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import Public from "@/app/components/Layouts/Public";
 import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 import { connect } from "react-redux";
-import { verifyOTP } from "@/redux/features/auth/authSlice";
+import { reset, verifyOTP } from "@/redux/features/auth/authSlice";
+import { toast } from "react-toastify";
+import { AppDispatch, RootState } from "@/redux/store/store";
+// import { withRouter } from "next/router";
+import { withRouter } from "@/app/components/WithRouter";
 
 type Props = {
-  verify: any;
-  verifyOtp(name: string): any;
+  auth: any;
+  dispatch: AppDispatch;
+  searchParams: any;
+  router: any;
 };
 
 interface IState {
   numInputs: number;
   otp: string;
-  phone: string;
+  identity: string | null;
   complete: boolean;
   date: number;
   disabled: boolean;
   mount: boolean;
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    verify: (otp: string) => dispatch(verifyOTP({ otp: otp })),
-  };
-};
-
-const mapStateToProps = (state: any) => ({ auth: state.auth });
+const mapStateToProps = (state: RootState) => ({
+  auth: state.auth,
+});
 
 class VerifyEmailPage extends Component<Props, IState> {
   countdownApi: CountdownApi | null = null;
   countdownInterval = 0;
 
-  //router = useRouter()
-
   constructor(props: any) {
     super(props);
+    console.log(this.props);
     this.state = {
       numInputs: 6,
       mount: false,
-      phone: "",
+      identity: this.props?.searchParams?.identity
+        ? this.props?.searchParams?.identity
+        : "",
       otp: "",
       complete: false,
       disabled: true,
@@ -60,11 +63,11 @@ class VerifyEmailPage extends Component<Props, IState> {
   ) => {
     e.preventDefault();
     console.log(this.state);
-    this.props.verifyOtp(this.state.otp);
+    const { otp, identity } = this.state;
+    this.props.dispatch(verifyOTP({ code: otp, email: identity! }));
   };
 
   handleChange = (otp: any) => {
-    console.log(otp);
     this.setState({ otp });
   };
 
@@ -94,6 +97,27 @@ class VerifyEmailPage extends Component<Props, IState> {
         this.setState({ disabled: true });
       }
     }
+    this.handleEffects();
+  }
+
+  handleEffects() {
+    const { isError, isSuccess, message, response } = this.props.auth;
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      toast.success(message);
+    }
+
+    if (response == 1) {
+      const { identity } = this.state;
+      this.props.router.push(`/auth/login?identity=${identity}`);
+      //redirect(`/auth/login?identity=${identity}`);
+    }
+
+    this.props.dispatch(reset());
   }
 
   start(): void {
@@ -150,7 +174,7 @@ class VerifyEmailPage extends Component<Props, IState> {
   }
 
   render() {
-    const { user, isLoading, isError, isSuccess, message } = this.props.verify;
+    const { isLoading } = this.props.auth;
     const { disabled, date, otp, numInputs, mount } = this.state;
     return (
       <>
@@ -282,4 +306,5 @@ class VerifyEmailPage extends Component<Props, IState> {
 
 // export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailPage)
 
-export default VerifyEmailPage;
+// export default VerifyEmailPage;
+export default connect(mapStateToProps)(withRouter(VerifyEmailPage));

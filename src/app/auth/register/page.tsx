@@ -1,6 +1,6 @@
 "use client";
 import Public from "@/app/components/Layouts/Public";
-import { strengthColor, strengthIndicator } from "@/utils/password-strength";
+import { strengthColor, strengthIndicator } from "@/utils/PasswordStrength";
 import Link from "next/link";
 import React, {
   ChangeEvent,
@@ -11,10 +11,10 @@ import React, {
   useState,
 } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { IBoolean, IRegister, IString } from "@/utils/interface";
+import { IBoolean, IRegister, IString } from "@/utils/Interface";
 import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 import { AppDispatch, useAppSelector } from "@/redux/store/store";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { register, reset } from "@/redux/features/auth/authSlice";
 import { toast } from "react-toastify";
@@ -69,6 +69,7 @@ const Register = () => {
     (state) => state.auth
   );
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const setPassword = (value: string) => {
     const temp = strengthIndicator(value);
@@ -138,9 +139,13 @@ const Register = () => {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess || user) {
+    if (isSuccess) {
       toast.success(message);
-      redirect("/auth/verify");
+      router.replace(`/auth/verify?identity=${email}`, {
+        scroll: false,
+      });
+      //router.push('/auth/verify', { scroll: false })
+      //redirect("/auth/verify");
     }
     dispatch(reset());
   }, [user, isError, isSuccess, message, dispatch]);
@@ -171,11 +176,7 @@ const Register = () => {
       <h1 className="text-xl font-bold text-center leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
         Create an account
       </h1>
-      <form
-        className="space-y-4 md:space-y-6"
-        action="/dashboard"
-        onSubmit={onSubmit}
-      >
+      <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <div className="w-full">
             <label

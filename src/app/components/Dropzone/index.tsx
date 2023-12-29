@@ -1,11 +1,21 @@
+import { IString, ITouchedBoolean } from "@/utils/Interface";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { BiUpload } from "react-icons/bi";
 import { FaTimes } from "react-icons/fa";
 import { HiPhoto } from "react-icons/hi2";
 
-const Dropzone = ({ className }: any) => {
+type IDrop = {
+  banner: string[];
+  className: string;
+  touched?: ITouchedBoolean;
+  formErrors?: IString | any;
+  onBannerChange: (file: any) => void;
+};
+
+const Dropzone = (props: IDrop) => {
+  const { className, onBannerChange } = props;
   const [files, setFiles] = useState<any>([]);
   const [rejected, setRejected] = useState<any>([]);
 
@@ -18,6 +28,8 @@ const Dropzone = ({ className }: any) => {
             Object.assign(file, { preview: URL.createObjectURL(file) })
           ),
         ]);
+
+        onDropHandler(acceptedFiles);
       }
 
       if (rejectedFiles?.length) {
@@ -30,11 +42,23 @@ const Dropzone = ({ className }: any) => {
     []
   );
 
+  const onDropHandler = (files: Array<any>) => {
+    files.map((file) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        //store result into your state array.
+        onBannerChange(event.target?.result);
+        console.log(event.target?.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       "image/*": [],
     },
-    maxSize: 1024 * 1000,
+    maxSize: 1024 * 1000, // 10MB
     onDrop,
   });
 

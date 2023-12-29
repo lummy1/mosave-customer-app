@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import Private2 from "../components/Layouts/Private2";
 import Breadcrumb from "../components/Breadcrumbs";
 import { BsPhone, BsPhoneFlip } from "react-icons/bs";
-import Airtime from "./airtime";
-import Data from "./data";
+import Airtime from "./Airtime";
+import Data from "./Data";
 import RightBar from "../components/Rightbar";
 
 interface IState {

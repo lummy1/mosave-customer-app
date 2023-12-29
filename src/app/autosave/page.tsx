@@ -6,12 +6,12 @@ import RightBar from "../components/Rightbar";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
-import { IBoolean, IDateFocus, IDateProps, IString } from "@/utils/interface";
+import { IBoolean, IDateFocus, IDateProps, IString } from "@/utils/Interface";
 import {
   step1ValidationSchema,
   step2ValidationSchema,
   step3ValidationSchema,
-} from "./validations";
+} from "./Validations";
 import { toast } from "react-toastify";
 import moment from "moment";
 

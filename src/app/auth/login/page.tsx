@@ -4,6 +4,7 @@ import React, {
   FormEvent,
   FormEventHandler,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import Image from "next/image";
@@ -12,15 +13,22 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store/store";
 import { toast } from "react-toastify";
 import { login, reset } from "@/redux/features/auth/authSlice";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Public from "@/app/components/Layouts/Public";
 import { validationSchema } from "@/validations/loginValidation";
-import { IBoolean, ILogin, IString } from "@/utils/interface";
+import { IBoolean, ILogin, IString } from "@/utils/Interface";
 import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 
 const Login = () => {
-  const initialValue = { email: "", password: "" };
+  const loginRef = useRef(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const identity = searchParams.has("identity")
+    ? searchParams.get("identity")
+    : "";
+  const initialValue = { email: identity!, password: "" };
   const [formData, setFormData] = useState<ILogin>(initialValue);
   const [formErrors, setFormErrors] = useState<ILogin>(initialValue);
   const [touched, setTouched] = useState<IBoolean>({
@@ -31,8 +39,6 @@ const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [mount, setMount] = useState(false);
 
-  const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
   const { user, isLoading, isError, isSuccess, message } = useAppSelector(
     (state) => state.auth
   );
@@ -53,15 +59,26 @@ const Login = () => {
   ) => {
     e.preventDefault();
     const userData = { identity: email, email, password };
-    console.log(userData);
-    dispatch(login(userData));
+    if (loginRef.current == false) {
+      dispatch(login(userData));
+    }
+    return () => {
+      loginRef.current == true;
+    };
   };
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess || user) {
+    // if (
+    //   user?.email_confirm_flag === "0" &&
+    //   user?.phoneno_confirm_flag === "0"
+    // ) {
+    //   toast.error("Please verify your email or phone number");
+    // }
+    // if (isSuccess && user?.email_confirm_flag === "1") {
+    if (isSuccess && user) {
       //isSuccess ||
       toast.success(message);
       console.log(user);

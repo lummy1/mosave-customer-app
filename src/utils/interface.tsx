@@ -17,15 +17,30 @@ export type IRegister = {
   [key: string]: string | boolean;
 };
 
-export type IUser = {
-  firstName: string;
-  lastName: String;
+export interface IUser {
+  country_code: string;
   email: string;
-  image?: {
-    url: string | any;
-    publicId: string;
-  };
-};
+  email_confirm_flag: string;
+  expireAt: number;
+  firstName: string;
+  id: string;
+  lastName: string;
+  message: string;
+  mobilenetwork: string;
+  phoneno: string;
+  phoneno_confirm_flag: string;
+  serialNo: string;
+  token: string;
+}
+
+export interface AuthState {
+  user: IUser | null;
+  isError: boolean;
+  isSuccess: boolean;
+  isLoading: boolean;
+  data: any;
+  message: string;
+}
 
 export type IForgotPassword = {
   email: string;
@@ -39,7 +54,9 @@ export type IResetPassword = {
 };
 
 export type IVerifyOTP = {
-  otp: string;
+  code: string;
+  phone?: string;
+  email?: string;
 };
 
 export type IPasswordValidation = {
@@ -124,16 +141,34 @@ export interface ITicket {
   discountMode?: string;
   currency: string;
 }
-// export interface ITicketBoolean {
-//   name: boolean;
-//   price: boolean;
-//   quantity: boolean;
-//   discount?: boolean;
-//   discountMode?: boolean;
-//   currency: boolean;
-// }
 
 export interface IValidationResult {
   isValid: boolean;
   errors: Record<string, string>[];
+}
+
+export interface ICustomSelect {
+  name: string;
+  type?: string;
+  value: any;
+}
+
+export interface IReactSelect {
+  value: string;
+  label: string;
+  __isNew__?: boolean;
+}
+
+export interface ISavings {
+  transAmount: number;
+  paymentcard_id: number;
+  planId: number;
+  accountId: number;
+}
+
+export interface IWithdrawal {
+  transAmount: number;
+  planId: number;
+  accountId: number;
+  otp: number;
 }

@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+// Moloyal colours
+// #ee383f red
+// #00aeef blue
+// #585858 grey
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",

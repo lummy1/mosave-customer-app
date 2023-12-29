@@ -4,7 +4,7 @@ import Private2 from "../components/Layouts/Private2";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 import { fetch } from "@/redux/features/profile/profileSlice";
-import { Greeting } from "../../utils/functions";
+import { Greeting } from "../../utils/Functions";
 import { BsEye, BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import Link from "next/link";
 import { callToAction, data, data2, data3, trans } from "./constants";
@@ -13,8 +13,13 @@ import { MdClose, MdKeyboardArrowDown } from "react-icons/md";
 import moment from "moment";
 import Cta from "../components/Cards/Cta";
 import Info from "../components/Cards/Info";
+import { AppDispatch, RootState } from "@/redux/store/store";
+import { IUser } from "@/utils/Interface";
 
-type Props = {};
+type Props = {
+  auth: any;
+  dispatch: AppDispatch;
+};
 
 type State = {
   mount: boolean;
@@ -25,10 +30,14 @@ type State = {
   transactions: any[];
 };
 
+const mapStateToProps = (state: RootState) => ({
+  auth: state.auth,
+});
+
 class DashboardPage extends Component<Props, State> {
   constructor(props: any) {
     super(props);
-
+    console.log(this.props);
     this.state = {
       mount: false,
       show: false,
@@ -45,13 +54,17 @@ class DashboardPage extends Component<Props, State> {
 
   render() {
     const { mount } = this.state;
+    console.log(mount);
+    const { user } = this.props.auth;
+    console.log(user);
+    const { firstName } = (user as IUser) || null;
     return (
       <>
         {mount && (
           <Private2>
             <div className="mb-5">
               <h1 className="my-2 text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                <Greeting /> John
+                <Greeting /> {firstName}
               </h1>
               <div className="grid gap-4 mt-4 md:grid-cols-2 xl:grid-cols-4">
                 {this.state.board.map((item, i) => (
@@ -318,14 +331,12 @@ class DashboardPage extends Component<Props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    signIn: () => dispatch(fetch()),
-  };
-};
+// const mapDispatchToProps = (dispatch: any) => {
+//   return {
+//     signIn: () => dispatch(fetch()),
+//   };
+// };
 
-const mapStateToProps = (state: any) => ({ auth: state.auth });
-
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);
+export default connect(mapStateToProps)(DashboardPage);
 
 //export default DashboardPage;

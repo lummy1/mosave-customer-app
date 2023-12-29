@@ -14,13 +14,13 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
-import { strengthColor, strengthIndicator } from "@/utils/password-strength";
+import { strengthColor, strengthIndicator } from "@/utils/PasswordStrength";
 import {
   IBoolean,
   IPasswordValidation,
   IResetPassword,
   IString,
-} from "@/utils/interface";
+} from "@/utils/Interface";
 import { validationSchema } from "@/validations/resetPasswordValidation";
 
 const ResetPassword = () => {
@@ -49,7 +49,7 @@ const ResetPassword = () => {
   const [disabled, setDisabled] = useState(true);
 
   const { password, confirmPassword } = formData;
-  const { user, isLoading, isError, isSuccess, message } = useAppSelector(
+  const { isLoading, isError, isSuccess, message } = useAppSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch<AppDispatch>();
@@ -97,12 +97,12 @@ const ResetPassword = () => {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess || user) {
+    if (isSuccess) {
       toast.success(message);
       redirect("/auth/login");
     }
     dispatch(reset());
-  }, [user, isError, isSuccess, message, dispatch]);
+  }, [isError, isSuccess, message, dispatch]);
 
   return (
     <Public>

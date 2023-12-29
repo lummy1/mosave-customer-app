@@ -5,82 +5,6 @@ import * as yup from "yup";
 //   time: Date | null;
 // }
 
-// Define a custom validation function for the 'unique' rule
-// function uniqueRule<T>(message: string, mapper: (value: T, index?: number, list?: T[]) => T = (val) => val) {
-//   return this.test('unique', message, function (list: T[] | undefined) {
-//     if (list === undefined) {
-//       return true; // If the list is undefined, consider it valid
-//     }
-
-//     return list.length === new Set(list.map(mapper)).size;
-//   });
-// }
-
-// // Add the 'unique' method to Yup's array schema
-// yup.addMethod(yup.array, 'unique', uniqueRule);
-
-// interface CustomArraySchema<T> extends yup.ArraySchema<T> {
-//   unique(message: string, mapper?: (value: T, index?: number, list?: T[]) => T[]): this;
-// }
-
-// function uniqueRule<T>(
-//   this: CustomArraySchema<T>,
-//   message: string,
-//   mapper: (value: T, index?: number, list?: T[]) => T = (val) => val
-// ) {
-//   return this.test('unique', message, function (list: any) {
-//     if (list === undefined) {
-//       return true;
-//     }
-//     return list.length === new Set(list.map(mapper)).size;
-//   });
-// }
-
-// // Adding the 'unique' method to Yup's array schema
-// yup.addMethod<CustomArraySchema<any>>(yup.array, 'unique', uniqueRule);
-
-// interface CustomArraySchema<T> extends yup.ArraySchema<T> {
-//   unique(message: string, mapper?: (value: T, index?: number, list?: T[]) => T[]): this;
-// }
-
-// function uniqueRule<T>(
-//   this: CustomArraySchema<T>,
-//   message: string,
-//   mapper: (value: T, index?: number, list?: T[]) => T = (val) => val
-// ) {
-//   return this.test('unique', message, function (list: any) {
-//     if (list === undefined) {
-//       return true;
-//     }
-//     return list.length === new Set(list.map(mapper)).size;
-//   }) as CustomArraySchema<T>; // Explicitly cast to CustomArraySchema<T>
-// }
-
-// interface CustomArraySchema<T> extends yup.ArraySchema<T> {
-//   unique(message: string, mapper?: (value: T, index?: number, list?: T[]) => T[]): this;
-// }
-
-// // Custom method implementation
-// function uniqueRule<T>(this: CustomArraySchema<T>, message: string, mapper: (value: T) => string) {
-//   return this.test('unique', message, function (list) {
-//     if (list === undefined) {
-//       return true;
-//     }
-//     const mappedValues = list.map(mapper);
-//     return mappedValues.length === new Set(mappedValues).size;
-//   }) as CustomArraySchema<T>;
-// }
-
-// // Adding the 'unique' method to Yup's array schema
-// yup.addMethod(yup.array, 'unique', uniqueRule);
-
-// Custom validation function
-// function validateUnique<T>(list: T[], mapper: (value: T) => string): boolean {
-//   const mappedValues = list.map(mapper);
-//   return mappedValues.length === new Set(mappedValues).size;
-// }
-
-// TType = any, TContext = any, TDefault = any, TFlags extends Flags = ''
 declare module "yup" {
   interface Schema<
     TType = any,
@@ -115,28 +39,6 @@ yup.addMethod(
   }
 );
 
-// yup.addMethod(yup.array, 'unique', function (message, mapper = (a: any) => a) {
-//   return this.test('unique', message, function (list) {
-//     return list.length === new Set(list.map(mapper)).size;
-//   });
-// });
-
-// export const validationSchema = yup.object().shape({
-//   people: yup
-//     .array()
-//     .of(
-//       yup.object().shape({
-//         phone: yup.number(),
-//         firstName: yup.string().max(10),
-//         lastName: yup.string().min(2)
-//       })
-//     )
-//     .uniques('duplicate phone', (a: any) => a.phone)
-//     .required("Must have friends")
-//     .min(3, 'Minimum of 3 friends'),
-//  // these constraints are shown if and only if inner constraints are satisfied
-// });
-
 export const step1ValidationSchema = yup.object({
   title: yup
     .string()
@@ -149,6 +51,12 @@ export const step1ValidationSchema = yup.object({
     .max(50, "Description can not be more than 500 characters")
     .required("Please enter event description"),
   category: yup.string().trim().required("Please choose your event category"),
+  mode: yup
+    .string()
+    .min(2, "Mode can not be less than 2 characters")
+    .max(50, "Mode can not be more than 50 characters")
+    .required("Please enter event mode"),
+  tags: yup.array().of(yup.string().notRequired()),
 });
 
 export const step2ValidationSchema = yup.object({
@@ -157,20 +65,31 @@ export const step2ValidationSchema = yup.object({
     time: yup.date().required("Please enter the start time"),
   }),
   end: yup.object().shape({
-    date: yup.date().required("Please enter the end date"),
+    //date: yup.date().required("Please enter the end date"),
+    date: yup
+      .date()
+      .required("Please enter the end date")
+      .test(
+        "is-after-start",
+        "End date must be after start date",
+        function (end: any, context) {
+          console.log(end);
+          console.log(this.parent);
+          console.log(context);
+          const { start } = this.parent; // Access the value of start date
+          console.log(start);
+          if (!start || !end) {
+            return true; // If either is not available, skip validation
+          }
+          console.log(new Date(end) >= new Date(start));
+          return new Date(end) >= new Date(start);
+        }
+      ),
     time: yup.date().required("Please enter the end time"),
-    // date: yup
-    //   .date()
-    //   .required("Please enter the end date")
-    //   .when("start", (start: any) => {
-    //     if (start.date) {
-    //       return yup
-    //         .date()
-    //         .min(start, "End date must be after Start date")
-    //         .typeError("End date is required");
-    //     }
-    //     return yup.date();
-    //   }),
+    banner: yup
+      .array()
+      .of(yup.string().required("Banner is required"))
+      .min(1, "Minimum of 1 banner required"),
   }),
 });
 
@@ -186,7 +105,8 @@ export const step3ValidationSchema = yup.object().shape({
             .required("Name is required"),
           price: yup
             .number()
-            .min(0, "Please enter minimum of 0")
+            .min(1, "Please enter minimum of 1")
+            .max(10000000, "Please enter between 1 and 9,999,999")
             .typeError("Please specify price")
             .required("Price is required"),
           quantity: yup
@@ -212,16 +132,6 @@ export const step3ValidationSchema = yup.object().shape({
             .test("maxDiscount", function (value) {
               const price = this.parent.price;
               const discountMode = this.parent.discountMode;
-              console.log(price); // number
-              console.log(discountMode);
-              console.log(value); // string
-              console.log(typeof value); // string
-              console.log(Number(value) <= Number(price));
-              console.log(
-                typeof Number(value) === "number" &&
-                  Number(value) <= Number(price)
-              );
-
               if (typeof Number(value) === "number") {
                 if (discountMode === "percent" && Number(value) >= 100) {
                   return this.createError({
@@ -270,8 +180,58 @@ export const step3ValidationSchema = yup.object().shape({
 });
 
 export const step4ValidationSchema = yup.object({
-  venue: yup.string().trim().required("Please enter your venue"),
-  country: yup.string().required("Please select your country"),
-  state: yup.string().required("Please choose your state"),
   type: yup.string().required("Please choose event type"),
+  venue: yup.string().when("type", {
+    is: (val: string) => val === "Physical",
+    then: (schema) => schema.required("Please enter your venue"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  country: yup
+    .object({
+      value: yup.string(),
+      label: yup.string(),
+    })
+    .when("type", {
+      is: (val: string) => val === "Physical",
+      then: (schema) => schema.required("Please select your country"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+  state: yup.string().when("type", {
+    is: (val: string) => val === "Physical",
+    then: (schema) => schema.required("Please choose your state"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  link: yup.string().when("type", {
+    is: (val: string) => val === "Online",
+    then: (schema) => schema.required("Please enter the link"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  platform: yup.string().when("type", {
+    is: (val: string) => val === "Online",
+    then: (schema) =>
+      schema
+        .required("Please enter the platform")
+        .url("Meeting link must be a valid URL"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+});
+
+export const step5ValidationSchema = yup.object({
+  bank: yup.object().shape({
+    details: yup.object({
+      value: yup.string().required("Please select the bank"),
+      label: yup.string().required("Please select the bank"),
+      code: yup.string().required("Please select the bank"),
+    }),
+    account: yup.object({
+      account_name: yup.string().required("Please enter the account no"),
+      account_number: yup
+        .string()
+        .trim()
+        .min(10, "Minimum of 10 digits")
+        .max(10, "Maximum of 10 digits")
+        .required("Please enter the account number"),
+      bank_id: yup.number(),
+    }),
+  }),
 });

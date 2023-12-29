@@ -3,9 +3,10 @@ import {
   IDateFocus,
   IDateProps,
   IEventDate,
+  IReactSelect,
   IStepFormState,
   ITouchedBoolean,
-} from "@/utils/interface";
+} from "@/utils/Interface";
 import React, { ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
@@ -14,6 +15,7 @@ interface Props extends IStepFormState {
   params: Iparams;
   touched: ITouchedBoolean;
   handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleBannerChange: (param: { name: string; value: IReactSelect[] }) => void;
   handleDateChange: (value: IDateProps) => void;
   onFocus: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   onDateFocus: (props: IDateFocus) => void;
@@ -23,6 +25,7 @@ interface Props extends IStepFormState {
 type Iparams = {
   start: IEventDate;
   end?: IEventDate;
+  banner: string[];
 };
 
 const Step2 = (props: Props) => {
@@ -34,10 +37,11 @@ const Step2 = (props: Props) => {
     disabled,
     handleChange,
     handleDateChange,
+    handleBannerChange,
     onDateFocus,
     onBlur,
   } = props;
-  const { start, end } = params;
+  const { start, end, banner } = params;
 
   if (currentStep !== 2) {
     return null;
@@ -174,7 +178,12 @@ const Step2 = (props: Props) => {
             <label className="inputLabelClass" htmlFor="title">
               Event Banner
             </label>
-            <Dropzone className="p-16 my-2 relative block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary-600 bg-gray-100 dark:bg-meta-4" />
+            <Dropzone
+              onBannerChange={handleBannerChange}
+              banner={banner}
+              touched={touched}
+              className="p-16 my-2 relative block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary-600 bg-gray-100 dark:bg-meta-4"
+            />
           </div>
         </div>
       </div>
