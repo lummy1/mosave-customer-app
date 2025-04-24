@@ -6,15 +6,13 @@ import React, {
   FormEventHandler,
 } from "react";
 import OtpInput from "react-otp-input";
-import Countdown, { zeroPad, CountdownApi } from "react-countdown";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import Countdown, { CountdownApi } from "react-countdown";
 import Public from "@/app/components/Layouts/Public";
 import ButtonLoader from "@/app/components/Loader/ButtonLoader";
 import { connect } from "react-redux";
 import { reset, verifyOTP } from "@/redux/features/auth/authSlice";
 import { toast } from "react-toastify";
 import { AppDispatch, RootState } from "@/redux/store/store";
-// import { withRouter } from "next/router";
 import { withRouter } from "@/app/components/WithRouter";
 
 type Props = {
@@ -307,4 +305,7 @@ class VerifyEmailPage extends Component<Props, IState> {
 // export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailPage)
 
 // export default VerifyEmailPage;
-export default connect(mapStateToProps)(withRouter(VerifyEmailPage));
+const ConnectedVerifyEmailPage = connect(mapStateToProps)(
+  withRouter(VerifyEmailPage)
+);
+export default ConnectedVerifyEmailPage;
