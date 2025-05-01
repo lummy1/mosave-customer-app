@@ -18,7 +18,7 @@ interface IPlans {
   status: boolean;
   interestRate: number;
   color: string;
-  bgColor: string;
+  bgColor: string
 }
 
 class Plans extends Component<IPlansProps, IPlansState> {
