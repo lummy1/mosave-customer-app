@@ -1,5 +1,5 @@
 import axios from "axios";
-import { get, removeItem } from "./Storage";
+import { get, removeItem } from "./storage";
 import AuthConstants from "@/redux/config/authConstant";
 import { useRouter } from "next/navigation";
 
