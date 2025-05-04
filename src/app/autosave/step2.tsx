@@ -6,7 +6,7 @@ import RadioInputCard from "../components/Cards/RadioInputCard";
 import { sourceOptions } from "./constants";
 import moment from "moment";
 import { IBoolean, IDateFocus, IDateProps, IString } from "@/utils/Interface";
-import { ordinalNumbers } from "@/utils/Functions";
+import { ordinalNumbers } from "@/utils/functions";
 // import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
