@@ -1,4 +1,4 @@
-import { get, removeItem, store } from "@/utils/Storage";
+import { get, removeItem, store } from "@/utils/storage";
 import {
   IForgotPassword,
   ILogin,

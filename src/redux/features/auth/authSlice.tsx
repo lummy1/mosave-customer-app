@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "./authService";
 import AuthConstants from "../../config/authConstant";
-import { get } from "@/utils/Storage";
+import { get } from "@/utils/storage";
 import {
   AuthState,
   IForgotPassword,

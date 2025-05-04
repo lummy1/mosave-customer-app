@@ -26,7 +26,7 @@ import {
   step4ValidationSchema,
   step5ValidationSchema,
 } from "./validations";
-import RightBar from "@/app/components/Rightbar";
+import RightBar from "@/app/components/rightbar";
 import Step1 from "./steps/step1";
 import Step2 from "./steps/step2";
 import Step3 from "./steps/step3";
@@ -40,7 +40,7 @@ import {
   IPaidEvent,
   IPhysicalEvent,
   ISelect,
-} from "@/utils/Types";
+} from "@/utils/types";
 import Step4 from "./steps/step4";
 import Step5 from "./steps/step5";
 
