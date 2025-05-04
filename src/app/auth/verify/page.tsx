@@ -308,4 +308,4 @@ class VerifyEmailPage extends Component<Props, IState> {
 const ConnectedVerifyEmailPage = connect(mapStateToProps)(
   withRouter(VerifyEmailPage)
 );
-export default ConnectedVerifyEmailPage;
+export default VerifyEmailPage;
