@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import SavingsCard from "../components/Cards/Plans";
 import Private2 from "../components/Layouts/Private2";
 import Breadcrumb from "../components/Breadcrumbs";
-import RightBar from "../components/rightbar";
+import RightBar from "../components/Rightbar";
 
 interface IPlansProps {}
 

@@ -5,7 +5,7 @@ import Breadcrumb from "../components/Breadcrumbs";
 import { BsPhone, BsPhoneFlip } from "react-icons/bs";
 import Airtime from "./airtime";
 import Data from "./data";
-import RightBar from "../components/rightbar";
+import RightBar from "../components/Rightbar";
 
 interface IState {
   mount: boolean;
